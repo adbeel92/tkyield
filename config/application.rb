@@ -24,5 +24,7 @@ module Tkyield
     config.active_record.raise_in_transactional_callbacks = true
 
     config.assets.paths << "#{Rails}/vendor/assets/fonts"
+
+    config.time_zone = 'Lima'
   end
 end

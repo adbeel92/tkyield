@@ -1,6 +1,8 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  add_breadcrumb "Dashboard", :root_path 
+  add_breadcrumb "Tasks", :tasks_path
 
   # GET /tasks
   # GET /tasks.json
@@ -11,6 +13,7 @@ class TasksController < ApplicationController
   # GET /tasks/1
   # GET /tasks/1.json
   def show
+        add_breadcrumb "Show", :task_path
   end
 
   # GET /tasks/new
@@ -20,6 +23,7 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+    add_breadcrumb "Edit", :edit_task_path
   end
 
   # POST /tasks
@@ -43,7 +47,7 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
+        format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
       else
         format.html { render :edit }

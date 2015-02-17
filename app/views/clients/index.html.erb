@@ -1,8 +1,8 @@
-<p id="notice"><%= notice %></p>
+<%= link_to 'New Client', new_client_path , class: "btn btn-lg btn-warning align-right"%>  
 
-<h1>Listing Clients</h1>
+<h1 class="page-header"> Clients <small> Listing</small> </h1>
 
-<div class="col-md-6">
+<div class="col-md-12">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -29,7 +29,3 @@
       </tbody>
     </table>
   </div>
-  <div>
-    <%= link_to 'New Client', new_client_path , class: "btn btn-lg btn-warning"%>  
-  </div>
-  

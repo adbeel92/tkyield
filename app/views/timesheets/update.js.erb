@@ -1,0 +1,4 @@
+$('#timesheet_modal_<%= @timesheet.id %>').modal('hide');
+$('#myModal').modal('hide');
+$('#timesheet-content').html('<%= escape_javascript(render(:partial => "timesheets")).html_safe %>');
+$('#label_total_per_week').html('<%=  get_seconds_in_hours_minutes(current_user.total_time_per_week @day_selected) %>');

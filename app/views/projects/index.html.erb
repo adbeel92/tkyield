@@ -1,12 +1,11 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Projects</h1>
-  <div class="col-md-6">
+<%= link_to 'New Project', new_project_path , class: "btn btn-lg btn-warning align-right" %>
+<h1 class="page-header"> Projects <small> Listing</small> </h1>
+  <div class="col-md-12">
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Id</th>
-          <th>Proyect Name</th>
+          <th>Client</th>
+          <th>Project name</th>
           <th></th>
           <th></th>
           <th></th>
@@ -14,18 +13,16 @@
       </thead>
       <tbody>
         <% @projects.each do |project| %>
-          <tr>
-            <td><%= project.id %></td>
-            <td><%= project.name %></td>
-            <td><i class="fa fa-eye"></i> <%= link_to 'Show', project %></td>
-            <td><i class="fa fa-pencil"></i> <%= link_to 'Edit', edit_project_path(project) %></td>
-            <td><i class="fa fa-times"></i> <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          </tr>
+              <tr>
+              <td> <%= project.client.name %>
+              <td><%= project.name %></td>
+              <td><i class="fa fa-eye"></i> <%= link_to 'Show', project %></td>
+              <td><i class="fa fa-pencil"></i> <%= link_to 'Edit', edit_project_path(project) %></td>
+              <td><i class="fa fa-times"></i> <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
         <% end %>
       </tbody>
     </table>
   </div>
-  <div>
-    <%= link_to 'New Project', new_project_path , class: "btn btn-lg btn-warning" %>
-  </div>
+ 
 

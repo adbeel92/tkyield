@@ -7,12 +7,17 @@ Rails.application.routes.draw do
 
   resources :tasks
 
-  resources :projects
+  resources :projects do
+  	get 'tasks', on: :collection
+  end
 
   resources :clients
 
-  resources :timesheets , only: [:index]
+  resources :timesheets do
+    get 'toggle_timesheet', on: :collection
+  end
 
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
+
 
 end

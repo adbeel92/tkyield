@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require flipclock
  */
  
 form{
@@ -25,6 +26,17 @@ html{
 body {
 	
 	height:  calc(100% - 50px);
+}
+
+#not_logged {
+	background-color: white;
+	height: 100%;
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-right: 10px;
+}
+.align-right {
+	float: right;
 }
 
 #wrapper {

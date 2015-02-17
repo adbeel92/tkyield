@@ -1,14 +1,13 @@
-<p id="notice"><%= notice %></p>
+<%= link_to 'New Task', new_task_path, class: "btn btn-lg btn-warning align-right" %>
 
-<h1>Listing Tasks</h1>
+<h1 class="page-header"> Tasks <small> Listing</small> </h1>
 
-<div class="col-md-6">
+<div class="col-md-12">
     <table class="table table-striped">
       <thead>
         <tr>
           <th>Id</th>
           <th>Task Name</th>
-          <th></th>
           <th></th>
           <th></th>
         </tr>
@@ -18,13 +17,10 @@
           <tr>
             <td><%= task.id %></td>
             <td><%= task.name %></td>
-            <td><i class="fa fa-eye"></i> <%= link_to 'Show', task %></td>
             <td><i class="fa fa-pencil"></i> <%= link_to 'Edit', edit_task_path(task) %></td>
             <td><i class="fa fa-times"></i> <%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
-  </div>
-
-<%= link_to 'New Task', new_task_path, class: "btn btn-lg btn-warning" %>
+</div>

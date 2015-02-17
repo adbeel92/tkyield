@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <%= link_to timesheets_path, class: 'navbar-brand' do %>
+        <%= link_to root_path, class: 'navbar-brand' do %>
            <p><%= image_tag('favicon.ico', width: '20', height: '20') %>
             Tekton Yield</p>
         <% end %>
@@ -34,7 +34,8 @@
             </li>
         </ul>
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <%if user_signed_in? %>
+          <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li>
                     <%= link_to clients_path do %>
@@ -58,7 +59,8 @@
                     <% end %> 
                 </li>
             </ul>
-        </div>
+          </div>
+        <% end %>
         <!-- /.navbar-collapse -->
     <% end %>
 </nav>

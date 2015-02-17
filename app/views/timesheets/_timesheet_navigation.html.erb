@@ -1,0 +1,56 @@
+<div id="week_dates">
+  <%= link_to "<- Week" , '#', :data => {:date => @day_selected.last_week},:id => "last_week_btn", :class => 'change_date' %> 
+  <%= link_to "Week ->" , '#', :data => {:date => @day_selected.next_week},:id => "next_week_btn", :class => 'change_date' %> 
+</div>
+<div role="tabpanel">
+
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs" role="tablist" id="myTab">
+		<li role="presentation"  data-date="<%= @start_of_week_day %>"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"> <%= get_date_in_day_format @start_of_week_day %></a></li>
+		<li role="presentation"  data-date="<%= @start_of_week_day+1.days %>"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ><%=get_date_in_day_format ( @start_of_week_day + 1.days ) %></a></li>
+		<li role="presentation"  data-date="<%= @start_of_week_day+2.days %>"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ><%= get_date_in_day_format( @start_of_week_day + 2.days ) %></a></li>
+		<li role="presentation" data-date="<%= @start_of_week_day+3.days %>"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ><%=get_date_in_day_format ( @start_of_week_day + 3.days ) %></a></li>
+		<li role="presentation"  data-date="<%= @start_of_week_day+4.days %>"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ><%=get_date_in_day_format ( @start_of_week_day + 4.days ) %></a></li>
+		<li role="presentation"  data-date="<%= @start_of_week_day+5.days %>"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ><%=get_date_in_day_format ( @start_of_week_day + 5.days ) %></a></li>
+		<li role="presentation" data-date="<%= @start_of_week_day+6.days %>"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ><%= get_date_in_day_format ( @start_of_week_day + 6.days ) %></a></li>
+		<li> 
+			<div id="total_per_week">
+				Total:
+				<b id="label_total_per_week"><%= get_seconds_in_hours_minutes(current_user.total_time_per_week @day_selected) %></b>
+			</div>
+		</li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		var mydiv=document.getElementById('myTab');
+		var arrayCollection = mydiv.children;
+		var arrayTabs = [].slice.call(arrayCollection);
+		arrayTabs.forEach(function (tab, index) {
+			var today = new Date('<%= @day_selected %>')
+			var tabDate = new Date(tab.getAttribute("data-date"))
+			if( tabDate.getDate() == today.getDate() 
+			&& tabDate.getMonth() == today.getMonth()
+			&& tabDate.getFullYear() == today.getFullYear()){
+				tab.classList.add("active");
+			}else{
+				tab.classList.remove("active");
+			}
+		});
+	});
+
+	$('#myTab a').click(function (e) {
+	  e.preventDefault()
+	  $(this).tab('show')
+	  var parent = $(this).parent()[0];
+	  var dateForParam = parent.getAttribute("data-date");
+	  $.ajax({
+	    type:'GET', 
+	    url: "<%=timesheets_path%>", 
+	    data: { date : dateForParam },
+	    dataType: "script"
+	  });
+	})
+</script>

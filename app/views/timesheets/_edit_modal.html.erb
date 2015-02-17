@@ -1,0 +1,53 @@
+<!-- Modal -->
+<div class="modal fade" id="timesheet_modal_<%=timesheet.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"> Create new Timer <span> <%= @day_selected.strftime("%A, %b %d")  %> </span></h4>
+      </div>
+      <div id="new-timer-form" class="modal-body">
+		<%= form_for(timesheet, remote: true) do |f| %>
+		  <p>
+		    <%= f.label :project %><br />
+		    <%= f.select :project_id, projects_helper.collect{ |t| [t.name, t.id]}, {:prompt => "Select a project" } %>
+		  </p>
+		  <p>
+		    <%= f.label :task %><br /> 
+		    <%= f.select :task_id, @tasks.collect{ |t| [t.name, t.id]}, {:prompt => "Select a task" } %> 
+		  </p>
+		    <%= f.hidden_field :belongs_to_day, :id => "timesheet_day_#{timesheet.id}"%>
+		  <div class="field">
+		    <%= f.label :notes %><br>
+		    <%= f.text_area :notes %>
+		  </div>
+		  <div class="total_time">
+		    <%= f.label :total_time %><br>
+		    <%= f.text_field :total_time, value: (get_seconds_in_hours_minutes timesheet.total_time.to_f ) %>
+		  </div>
+
+		  <div class="modal-footer">
+		    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		    <%= f.submit 'Update', :class => 'btn btn-primary'%>
+            <%= link_to 'Delete', timesheet, method: :delete, data: { confirm: 'Are you sure?' } %>
+		  </div>
+
+		<% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  $('#timesheet_project_id').change(function () {
+    $.ajax({
+          type:'GET', 
+          url: "<%= tasks_projects_path %>",
+          data: {
+            id : $('#timesheet_project_id').val()
+          },
+          dataType: "script"
+        });
+  })
+</script>
