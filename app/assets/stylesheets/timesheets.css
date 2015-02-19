@@ -1,3 +1,5 @@
+
+
 .modal 
 	.modal-header > h4 > span{
 	    float: right;
@@ -27,3 +29,13 @@
 		text-align: right;
 	}
 
+.rightie{
+	float:right;
+	padding-right: 15px;
+	padding-bottom: 20px;
+}
+
+.new-entry{
+	margin-top: 50px;
+
+}

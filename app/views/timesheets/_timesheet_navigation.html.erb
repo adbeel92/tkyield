@@ -1,7 +1,13 @@
-<div id="week_dates">
-  <%= link_to "<- Week" , '#', :data => {:date => @day_selected.last_week},:id => "last_week_btn", :class => 'change_date' %> 
-  <%= link_to "Week ->" , '#', :data => {:date => @day_selected.next_week},:id => "next_week_btn", :class => 'change_date' %> 
+<div class="row" id="week_dates">
+	<div class="btn-toolbar rightie" role="toolbar">
+	  <div class="btn-group">
+	    <%= link_to "<- Week" , '#', :data => {:date => @day_selected.last_week},:id => "last_week_btn", :class => 'change_date btn btn-lg btn-default'	%>
+	    <%= link_to "Today" , '#', :data => {:date => @today},:id => "today_date", :class => 'change_date btn btn-lg btn-primary' %> 
+	    <%= link_to "Week ->" , '#', :data => {:date => @day_selected.next_week},:id => "next_week_btn", :class => 'change_date btn btn-lg btn-default' %>
+	  </div>
+	</div>
 </div>
+
 <div role="tabpanel">
 
 	<!-- Nav tabs -->

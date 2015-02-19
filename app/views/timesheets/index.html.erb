@@ -1,26 +1,31 @@
 <div>
   <%= render "timesheet_day" %>
+  <%= render "new_modal" %>
 
-  <div id="date_ranges">
-    <%= link_to "Today" , '#', :data => {:date => @today},:id => "today_date", :class => 'change_date' %> 
+<div class="row">
+  <div class="col-lg-1 text-center">
+      <!-- Button trigger modal -->
+    <button id="create-timer" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#timesheetModal">
+      +
+    </button>
+    <h6>New Entry</h6>
   </div>
-  <div id="timesheet_container">
+  <div class="col-lg-11 ">
     <div id="timesheet_nav_container">
       <%= render "timesheet_navigation" %>
     </div>
+
+    <div id="timesheet_container">
     <!-- Tab panes -->
-    <div class="tab-content">
-      <div id="timesheet-content" role="tabpanel" class="tab-pane active" id="home"> 
-          <%= render "timesheets" %>
+      <div class="tab-content">
+        <div id="timesheet-content" role="tabpanel" class="tab-pane active" id="home"> 
+            <%= render "timesheets" %>
+        </div>
       </div>
     </div>
   </div>
-    <!-- Button trigger modal -->
-  <button id="create-timer" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#timesheetModal">
-    +
-  </button>
+</div>
 
-  <%= render "new_modal" %>
 
 </div>
 
