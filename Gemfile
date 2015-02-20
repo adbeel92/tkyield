@@ -10,7 +10,7 @@ gem 'mysql2', '~> 0.3.14'
 gem 'schema_plus', '~> 1.8.6'
 
 # Profiles
-gem "cancan", '~> 1.6.10'
+gem 'cancancan', '~> 1.10'
 
 # Authentication for users
 gem 'devise', '~> 3.4.1'
@@ -46,6 +46,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'nested_form', '0.3.2'
 
 gem "seedbank", "~> 0.3.0"
+
+gem "breadcrumbs_on_rails", '2.3.0'
+
+# Use Flipclock for Javascript buttons and timer
+gem 'flipclockjs-rails', '~> 0.5.5b.1'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

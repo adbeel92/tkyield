@@ -1,11 +1,20 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
+  before_action :set_project, only: [:tasks, :show, :edit, :update, :destroy]
+  add_breadcrumb "Dashboard", :root_path 
+  add_breadcrumb "Projects", :projects_path
 
   # GET /projects
   # GET /projects.json
   def index
+    @clients = Client.all
     @projects = Project.all
+  end
+
+  # GET /project_tasks.js
+  def tasks
+    @tasks = @project.tasks
   end
 
   # GET /projects/1
@@ -17,16 +26,18 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     @project.users << current_user
+    @project.task_projects.build
+    @project.user_projects.build
   end
 
   # GET /projects/1/edit
   def edit
+    add_breadcrumb "Edit", :edit_project_path
   end
 
   # POST /projects
   # POST /projects.json
   def create
-    
     @project = Project.new(project_params)
     respond_to do |format|
       if @project.save

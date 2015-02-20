@@ -24,8 +24,30 @@
         <%= @project.client.name %>
     </div>
 </div>
-
-
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>Project tasks:</strong></h3>
+    </div>
+    <div class="panel-body">
+        <% @project.tasks.each do |t| %>
+            <ul>
+                <li><%= t.name %></li>
+            </ul>
+        <% end %>
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>Project users:</strong></h3>
+    </div>
+    <div class="panel-body">
+        <% @project.users.each do |u| %>
+            <ul>
+                <li><%= u.full_name %></li>
+            </ul>
+        <% end %>
+    </div>
+</div>
 
 <%= link_to 'Edit', edit_project_path(@project), class: "btn btn-primary"%>
 <%= link_to 'Back', projects_path, class: "btn btn-primary" %>

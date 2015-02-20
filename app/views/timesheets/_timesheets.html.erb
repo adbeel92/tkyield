@@ -1,0 +1,58 @@
+<% timesheets.each do |timesheet| %>
+	<div id="timesheet_<%= timesheet.id%>" class="entry-info">
+ 	  <ul class="day-view-entry-list">
+		<li class="day-view-entry" style="list-style-type: none;">
+			<table border="0" cellpadding="0" cellspacing="0">
+			  <tbody>
+				  <tr>    
+				    <td>
+				      <div class="entry-info">
+				       	<div id="project_client">
+							<p> <%= timesheet.project.name %> ( <span> <%= timesheet.project.client.name %></span> ) </p>
+						</div>
+				        <div id="task_notes">
+						<p> <%= timesheet.task.name %> <span> <%= !timesheet.notes.empty? ? "- #{timesheet.notes}" : nil %></span>  </p>
+					  </div>
+				      </div>
+				    </td>
+					<td class="entry-time">
+						<div id="timesheet_timer_<%= timesheet.id %>" class="clock" data-isrunning="<%= timesheet.is_running? %>", data-id="<%= timesheet.id %>">
+						</div> 
+					</td>
+					<td class="entry-button">
+				      <div class="col-lg-6" id="timesheet_start"> 				      			
+								<%= link_to timesheet.running? ? "Stop" : "Start" ,toggle_timesheet_timesheet_path(timesheet),
+		        					:class => 'toggle_timesheet btn btn-primary',
+		        					:remote => true,
+		        					:id => "timesheet_btn_#{timesheet.id}" %>
+					  </div>
+				    </td>
+				    <td class="edit-button">
+				      	<div class="col-lg-6" id="timesheet_edit">
+				  			<%= link_to 'Edit', '', :data => { :toggle => "modal", :target => "#timesheet_modal_#{timesheet.id}" }, :class => "btn btn-primary" %>
+					  	</div>
+				    </td>
+				  </tr>
+			  </tbody>
+			</table>
+		</li>
+	</ul>
+	
+	<%= render 'edit_modal', timesheet: timesheet %>
+	
+	</div>
+	<script type="text/javascript">
+		$('#timesheet_timer_<%= timesheet.id %>').countdown({since: '-<%= timesheet.current_time %>s', compact: true, format: 'HMS'}).countdown('pause');
+	</script>
+<% end %>
+<div id="day_footer">
+	<div id="total_per_day"> Total: <b> <%= get_seconds_in_hours_minutes(current_user.total_time_per_day day )%> </b></div>
+</div>
+
+<script type="text/javascript">
+  $('.clock').each(function() {
+    if($(this).data('isrunning')){
+      $(this).countdown('resume');
+    }
+  })		
+</script>

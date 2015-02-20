@@ -1,11 +1,15 @@
 class ClientsController < ApplicationController
   before_action :authenticate_user!
+  load_and_authorize_resource
   before_action :set_client, only: [:show, :edit, :update, :destroy]
+  add_breadcrumb "Dashboard", :root_path 
+  add_breadcrumb "Clients", :clients_path
 
   # GET /clients
   # GET /clients.json
   def index
     @clients = Client.all
+  
   end
 
   # GET /clients/1
@@ -20,6 +24,7 @@ class ClientsController < ApplicationController
 
   # GET /clients/1/edit
   def edit
+    add_breadcrumb "Edit", :edit_client_path
   end
 
   # POST /clients

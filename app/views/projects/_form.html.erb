@@ -1,6 +1,10 @@
 <%= nested_form_for @project do |f| %>
   <% if @project.errors.any? %>
     <div id="error_explanation">
+      <div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" 
+      aria-hidden="true">
+      &times;
+   </button>
       <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
 
       <ul>
@@ -8,6 +12,7 @@
         <li><%= message %></li>
       <% end %>
       </ul>
+      </div>
     </div>
   <% end %>
 
@@ -32,46 +37,143 @@
     <%= f.select :client_id, clients_helper.collect{ |t| [t.name, t.id]}, {:prompt => "Select a client" } , class: "form-control" %>
   </div>
   <br>
- 
-  <div class="input-group">
-    <span class="input-group-addon">Tasks</span>
   
-    <%= f.fields_for :task_projects do |task_form| %>
-      
-      <div class="row">
-        <p>
-          <div class="col-md-11">
-            <%= task_form.select :task_id, tasks_helper.collect{ |t| [t.name, t.id]}, {:prompt => "Select a task" } , class: "form-control" %>
-          </div>
-          <div class="col-md-1">
-            <%= task_form.link_to_remove "X", class: "btn btn-xs btn-danger" %>
-          </div>
-        </p>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Tasks</h3>
+        </div>
+        <div class="panel-body">
+          <%= f.fields_for :task_projects do |task_form| %>
+            <div class="nested-select row">
+              <div class="col-sm-10 ">
+                <%= task_form.select :task_id, tasks_helper.collect{ |t| [t.name, t.id]}, {:prompt => "Select a task" } , class: "form-control select-task" %>
+              </div>
+              <div class="col-sm-2">
+                <%= task_form.link_to_remove "X", class: "btn btn-danger" %>
+              </div>
+            </div>
+          <% end %>
+          <%= f.link_to_add "Add a Task", :task_projects , id: "add_task",class: "btn btn-xs btn-default" %>
+        </div>
       </div>
-    <% end %>
-    </p>
-    <%= f.link_to_add "Add a Task", :task_projects , class: "btn btn-xs btn-default" %>
-  </div><br>
-
-  <div class="input-group">
-    <span class="input-group-addon">Users</span>
-    <%= f.fields_for :user_projects do |user_form| %>
-    <div class="row">
-      <p>
-        <div class="col-md-11">
-          <%= user_form.select :user_id, users_helper.collect{ |u| [u.full_name, u.id]}, {:prompt => "Select a user"} , class: "form-control" %>
-        </div>
-        <div class="col-md-1">
-          <%= user_form.link_to_remove "X", class: "btn btn-xs btn-danger"%>
-        </div>
-      </p>
     </div>
-      <% end %>
-    </p>
-    <%= f.link_to_add "Add a User", :user_projects , class: "btn btn-xs btn-default"%>
-  </div><br>
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Collaborators</h3>
+
+        </div>
+        <div class="panel-body">
+          <%= f.fields_for :user_projects do |user_form| %>
+          <div class="nested-select row">
+          <div class="col-sm-10">
+          <%= user_form.select :user_id, users_helper.collect{ |u| [u.full_name, u.id]}, {:prompt => "Select a user"} , class: "form-control select-user" %>
+          </div><div class="col-sm-2">
+          <%= user_form.link_to_remove "X", class: "btn btn-danger"%>
+          </div>
+          </div>
+          <% end %>
+
+          <%= f.link_to_add "Add a employee", :user_projects , id: "add_user", class: "btn btn-xs btn-default"%>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="actions">
     <%= f.submit class: "btn btn-lg btn-warning" %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+    $( document ).on( "change", ".select-task", function() {
+      var ultimo;
+      $(".select-task").each(function() {
+        if ( $(this).is(":visible"))
+          ultimo = $( this );
+      });
+      if ($(this).is(ultimo)){
+        $( "#add_task").click();
+      }
+      validateUnique('.select-task');
+
+      
+    });
+
+    $( document ).on( "change", ".select-user", function() {
+      var ultimo;
+      $(".select-user").each(function() {
+        if ( $(this).is(":visible"))
+          ultimo = $( this );
+      });
+      if ($(this).is(ultimo)){
+        $( "#add_user").click();
+      }
+      validateUnique('.select-user');
+      
+      
+    });
+
+    $(document).on('nested:fieldAdded', function() {
+      validateUnique('.select-task');
+      validateUnique('.select-user');
+    });
+
+    $(document).on('nested:fieldRemoved', function() {
+      validateUnique('.select-task');
+      validateUnique('.select-user');
+    });  
+
+    function validateUnique(klass){
+      var arraySelect = new Array();
+
+      $(klass).each(function() {
+        if ($(this).is(':visible')){
+          arraySelect.push($(this).val());
+        }     
+      });
+
+      $(klass).each(function() {
+        if ($(this).is(':visible')){
+          $(this).children('option').each(function() {
+            $(this).removeAttr('disabled');
+          });
+        }
+      });
+
+      $(klass).each(function() {
+
+        if ($(this).is(':visible')){
+
+          var comboSelectedValue = $(this).val();
+
+          $(this).children('option').each(function() {
+            var disableMe = false;
+            var thisVal = $(this).val();
+            
+            for(var i=0, len=arraySelect.length; i<len;i++){
+              if (disableMe==false){
+                if (thisVal != comboSelectedValue){
+                  if ( thisVal === arraySelect[i] ){
+                    disableMe = true;
+                  }
+                }
+              }
+            }
+
+            if (disableMe){
+              $(this).attr('disabled', true);
+            }
+
+          });
+        
+        }
+
+      });
+
+    }
+
+
+</script>

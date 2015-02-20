@@ -1,45 +1,48 @@
-<h1> <%= @today.strftime("%A") %> <span> <%= @today.strftime("%d %b") %> </span> </h1> 
-<div role="tabpanel">
-
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist" id="myTab">
-    <li role="presentation"><a id ="first_day_week" href="#home" aria-controls="home" role="tab" data-toggle="tab" data-date="<%= @start_of_week_day %>"> <%= @start_of_week_day.strftime("%A") %></a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" data-date="<%= @start_of_week_day+1.days %>"><%=( @start_of_week_day + 1.days ).strftime("%A") %></a></li>
-    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" data-date="<%= @start_of_week_day+2.days %>"><%=( @start_of_week_day + 2.days ).strftime("%A") %></a></li>
-    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-date="<%= @start_of_week_day+3.days %>"><%=( @start_of_week_day + 3.days ).strftime("%A") %></a></li>
-    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-date="<%= @start_of_week_day+4.days %>"><%=( @start_of_week_day + 4.days ).strftime("%A") %></a></li>
-    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-date="<%= @start_of_week_day+5.days %>"><%=( @start_of_week_day + 5.days ).strftime("%A") %></a></li>
-    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" data-date="<%= @start_of_week_day+6.days %>"><%=( @start_of_week_day + 6.days ).strftime("%A") %></a></li>
-  </ul>
-
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="home">...</div>
-    <div role="tabpanel" class="tab-pane" id="profile">...</div>
-    <div role="tabpanel" class="tab-pane" id="messages">...</div>
-    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+<div class="row">
+  <div class="col-lg-6">
+    <%= render "timesheet_day" %>
   </div>
-
+  <div class="col-lg-6">
+    <div class="row" id="week_dates">
+      <div class="btn-toolbar to-the-right" role="toolbar">
+        <div class="btn-group"> 
+          <%= link_to "Today" , '#', :data => {:date => @today},:id => "today_date", :class => 'change_date btn btn-lg btn-primary' %> 
+        </div>
+      </div>
 </div>
 
+  </div>
+</div><br>
+<div class="row">
+  <div class="col-lg-1">
+    <!-- Button trigger modal -->
+    <button id="create-timer" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#timeshee-new-modal"> + </button>
+    <h6>New Entry</h6>
+  </div>
+  <div class="col-lg-11">
+      <div id="timesheet_container">
+        <div id="timesheet_nav_container">
+          <%= render "timesheet_navigation", days_of_week: @days_of_week %>
+        </div>
+        <!-- Tab panes -->
+        <div id="timesheets_content">
+          <%= render "timesheet_render", timesheets_per_date: @timesheets_per_date %>
+        </div>
+      </div>
+
+  </div>
+</div>
+
+<%= render "new_modal" %>
 <script type="text/javascript">
-$(function () {
-    $('#myTab a:last').tab('show')
-  })  
 
-
-
-$(function () {
-  var mydiv=document.getElementById('myTab');
-  var arrayCollection = mydiv.children;
-  var arrayTabs = [].slice.call(arrayCollection);
-  arrayTabs.forEach(function (tab, index) {
-    var b = tab.children[0]
-    var a = tab.getElementsByTagName("a").first;
-    console.log(a)
-    console.log(b.getAttribute("data-date"));
-  });
-
-}) 
-
+  $( document ).on("click",".change_date", function(){
+    var dateForParam = $(this).data('date');
+    $.ajax({
+      type:'GET', 
+      url: "<%=timesheets_path%>",
+      data: { date : dateForParam },
+      dataType: "script"
+   });
+  })
 </script>

@@ -10,16 +10,31 @@
   
 </head>
 <body>
+  <%if user_signed_in? %>
+	<div id="wrapper">
+      <%= render "layouts/navbar" %>
+    	<div id="page-wrapper">
+        <ol class="breadcrumb">
+          <%= render_breadcrumbs :tag => :li, :separator => "" %>
+        </ol>
+      <%= render "layouts/messages" %>
+      <div class="container-fluid"> 
+  	    <%= yield %>
+  	  </div>
+    </div>
+	</div>
+  <% else %>
+    <div id="not_logged">
+      <%= render "layouts/navbar" %>
+      <div>
+        <%= render "layouts/messages" %>
+      <div class="container-fluid"> 
+        <%= yield %>
+      </div>
+    </div>
+  </div>
 
-		<div id="wrapper">
-            <%= render "layouts/navbar" %>
-			<div id="page-wrapper">
-                <%= render "layouts/messages" %>
-                <div class="container-fluid"> 
-					<%= yield %>
-				</div>
-			</div>
-		</div>
+  <% end %>
 	
 
 

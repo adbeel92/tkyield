@@ -1,0 +1,7 @@
+<div class="tab-content">
+  <% timesheets_per_date.each do |timesheets| %>
+    <div role="tabpanel" class="tab-pane <%= 'active' if date_format_on_view(timesheets[:day]) == date_format_on_view(@day_selected)%>" id="date-<%= date_format_on_view(timesheets[:day]) %>">
+      <%= render "timesheets", day: timesheets[:day], timesheets: timesheets[:timesheets] %>
+    </div>
+  <% end %>
+</div>

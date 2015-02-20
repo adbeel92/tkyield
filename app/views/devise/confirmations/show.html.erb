@@ -1,0 +1,20 @@
+<h1 class="page-header">Create Password for Account</h1>
+
+<h2> You're almost done! Now create a password to securely access your account. </h2>
+<%= form_for(resource, :as => resource_name, :url => confirm_path) do |f| %>
+  <%= devise_error_messages! %>
+  <div class="input-group">
+    <span class="input-group-addon">Password</span>
+    <%= f.password_field :password, autofocus: true, class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Confirm Password</span>
+    <%= f.password_field :password_confirmation, autofocus: true, class: "form-control" %>
+  </div>
+  <div>
+  	<%= f.hidden_field :confirmation_token, :value => @original_token %>
+  </div>
+  <br><div class="actions">
+    <%= f.submit "Confirm account" , class: "btn btn-lg btn-warning"%>
+  </div>
+<% end %>

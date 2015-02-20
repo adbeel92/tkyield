@@ -1,0 +1,12 @@
+User.create([{ :email=>"pedro.carrillo@tektonlabs.com",
+              :first_name=>"Pedro",
+              :last_name=>"Castillo",
+              :password=>"tektonlabs",
+              :role_id=> 1,
+              :confirmed_at => Time.now},
+              { :email=>"billy.tandaypan@tektonlabs.com",
+              :first_name=>"Billy",
+              :last_name=>"Tandaypan",
+              :password=>"tektonlabs",
+              :role_id=> 2,
+              :confirmed_at => Time.now} ])

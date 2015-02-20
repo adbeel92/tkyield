@@ -1,0 +1,15 @@
+var timesheetId = "<%= @timesheet.id %>";
+$('.clock').each(function() {
+	var elementId = $(this).data("id");
+	if ($(this).attr('data-isrunning') == "true"){
+		$(this).countdown('pause');
+		$(this).attr('data-isrunning', "false");
+		$('#timesheet_btn_' + elementId).html('Start');
+	} else {
+		if (elementId == timesheetId){
+			$(this).countdown('resume');
+			$(this).attr('data-isrunning', "true");
+			$('#timesheet_btn_' + elementId).html('Stop');
+		}
+	}
+});

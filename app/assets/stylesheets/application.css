@@ -12,6 +12,8 @@
  *
  *= require_tree .
  *= require_self
+ *= require flipclock
+ *= jquery.countdown.css
  */
  
 form{
@@ -25,6 +27,35 @@ html{
 body {
 	
 	height:  calc(100% - 50px);
+}
+.page-header{
+	margin-top: 0px;
+}
+hr{
+margin-top: 20px;
+
+}
+.modal-date{
+	float: right;
+    position: absolute;
+    right: 15px;
+}
+.nested-select{
+	margin-bottom: 10px;
+}
+#modal-date{
+	position: absolute;
+}
+
+#not_logged {
+	background-color: white;
+	height: 100%;
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-right: 10px;
+}
+.align-right {
+	float: right;
 }
 
 #wrapper {

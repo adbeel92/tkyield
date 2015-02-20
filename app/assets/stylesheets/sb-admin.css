@@ -11,6 +11,11 @@ body {
     background-color: #222;
 }
 
+body.modal-open{
+    overflow: auto;
+    padding-right: 0!important;
+}
+
 @media(min-width:768px) {
     body {
         margin-top: 50px;

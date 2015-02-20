@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <%= link_to timesheets_path, class: 'navbar-brand' do %>
+        <%= link_to root_path, class: 'navbar-brand' do %>
            <p><%= image_tag('favicon.ico', width: '20', height: '20') %>
             Tekton Yield</p>
         <% end %>
@@ -34,31 +34,48 @@
             </li>
         </ul>
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <%if user_signed_in? %>
+          <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-                <li>
-                    <%= link_to clients_path do %>
-                        <i class="fa fa-users"></i> Clients
-                    <% end %> 
-                </li>
-                <li>
-                    <%= link_to projects_path do %>
-                        <i class="fa fa-fw fa-folder-open"></i>
-                        Projects
-                    <% end %>
-                </li>
-                <li>
-                    <%= link_to tasks_path do %>
-                        <i class="fa fa-fw fa-tasks"></i> Tasks
-                    <% end %> 
-                </li>
-                <li>
-                    <%= link_to timesheets_path do %>
-                        <i class="fa fa-fw fa-dashboard"></i> Timesheet
-                    <% end %> 
-                </li>
+                <% if can? :manage, Client %>   
+                    <li>
+                        <%= link_to clients_path do %>
+                            <i class="fa fa-users"></i> Clients
+                        <% end %> 
+                    </li>
+                <% end %> 
+                <% if can? :manage, Project %>   
+                    <li>
+                        <%= link_to projects_path do %>
+                            <i class="fa fa-fw fa-folder-open"></i>
+                            Projects
+                        <% end %>
+                    </li>
+                <% end %> 
+                <% if can? :manage, Task %>   
+                    <li>
+                        <%= link_to tasks_path do %>
+                            <i class="fa fa-fw fa-tasks"></i> Task
+                        <% end %> 
+                    </li>
+                <% end %> 
+                <% if can? :manage, User %>   
+                    <li>
+                        <%= link_to users_path do %>
+                            <i class="fa fa-fw fa-user"></i> Collaborators
+                        <% end %> 
+                    </li>
+                <% end %> 
+                <% if can? :manage, Timesheet %>   
+                    <li>
+                        <%= link_to timesheets_path do %>
+                            <i class="fa fa-fw fa-dashboard"></i> Timesheet
+                        <% end %> 
+                    </li>
+                <% end %> 
             </ul>
-        </div>
+          </div>
+        <% end %>
         <!-- /.navbar-collapse -->
     <% end %>
 </nav>

@@ -1,31 +1,50 @@
-<p id="notice"><%= notice %></p>
+<%= link_to 'New Project', new_project_path , class: "btn btn-lg btn-warning align-right" %>
+<h1 class="page-header"> Projects <small> Listing</small> </h1>
 
-<h1>Listing Projects</h1>
-  <div class="col-md-6">
-    <table class="table table-striped">
-      <thead>
+<div class="col-md-12">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Client</th>
+        <th>Projects</th>
+      </tr>
+    </thead>
+    <tbody>   
+      <% @clients.each do |client| %>
         <tr>
-          <th>Id</th>
-          <th>Proyect Name</th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @projects.each do |project| %>
-          <tr>
-            <td><%= project.id %></td>
-            <td><%= project.name %></td>
-            <td><i class="fa fa-eye"></i> <%= link_to 'Show', project %></td>
-            <td><i class="fa fa-pencil"></i> <%= link_to 'Edit', edit_project_path(project) %></td>
-            <td><i class="fa fa-times"></i> <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <%= link_to 'New Project', new_project_path , class: "btn btn-lg btn-warning" %>
-  </div>
+          <td>            
+              <%= client.name %> 
+          </td>
+          <td>
+              <% client.projects.each do |project| %>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>
+                        
+                          <div class="col-md-6">
+                            <%= project.name %>
+                          </div>
+                          <div class="col-md-2">
+                            <i class="fa fa-eye"></i> <%= link_to 'Show', project %>
+                          </div>
+                          <div class="col-md-2">
+                            <i class="fa fa-pencil"></i> <%= link_to 'Edit', edit_project_path(project) %>
+                          </div>
+                          <div class="col-md-2">
+                            <i class="fa fa-times"></i> <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %>
+                          </div>
+                        
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              <% end %>
+        </td>          
+      <% end %>
+    </tbody>
+  </table>
+</div>
+ 
+
 
