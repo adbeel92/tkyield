@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Projects_report") do |sheet|
+  sheet.add_row ["Client Name","Project Name","Total time"] ## Header values of Excel
+  @projects.each do |pro|
+    sheet.add_row [ pro.client.name, pro.name,get_seconds_in_hours_minutes(pro.project_total_time_between_dates(@beginning,@end))]
+  end
+end

@@ -1,0 +1,27 @@
+<div id="reports_navigation">
+    <%= render "reports_navigation" %>
+</div>
+
+<script type="text/javascript">
+
+    $( document ).on("click",".change-week", function(){
+        var dateForParam = $(this).data('date');
+        $.ajax({
+            type:'GET',
+            url: "<%= reports_dash_path %>",
+            data: { date : dateForParam },
+            dataType: "script"
+        });
+    })
+
+    $( document ).on("click",".change-date", function(){
+        var dateForParam = $(this).data('date');
+        $.ajax({
+            type:'GET',
+            url: "<%= reports_dash_path %>",
+            data: { date : dateForParam },
+            dataType: "script"
+        });
+    })
+
+</script>

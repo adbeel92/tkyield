@@ -2,13 +2,13 @@ class TasksController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  add_breadcrumb "Dashboard", :root_path 
+  add_breadcrumb "Dashboard", :root_path
   add_breadcrumb "Tasks", :tasks_path
 
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
+    @tasks = Task.order("name ASC").all
   end
 
   # GET /tasks/1
@@ -34,11 +34,11 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to @task, notice: 'Task was successfully created.' }
+        format.html { redirect_to tasks_path, notice: 'Task was successfully created.' }
         format.json { render :show, status: :created, location: @task }
       else
         format.html { render :new }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
+        format.json { render json: tasks_path.errors, status: :unprocessable_entity }
       end
     end
   end

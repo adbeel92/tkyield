@@ -1,0 +1,33 @@
+<%= form_for(@time_station) do |f| %>
+  <% if @time_station.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@time_station.errors.count, "error") %> prohibited this time_station from being saved:</h2>
+
+      <ul>
+      <% @time_station.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :in_time %><br>
+    <%= f.datetime_select :in_time %>
+  </div>
+  <div class="field">
+    <%= f.label :out_time %><br>
+    <%= f.datetime_select :out_time %>
+  </div>
+  <div class="field">
+    <%= f.label :total_time %><br>
+    <%= f.text_field :total_time %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

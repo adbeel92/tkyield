@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Clients_report") do |sheet|
+  sheet.add_row ["Client Name","Total time"] ## Header values of Excel
+  @clients.each do |cli|
+    sheet.add_row [ cli.name,get_seconds_in_hours_minutes(cli.client_total_time_between_dates(@beginning,@end))]
+  end
+end

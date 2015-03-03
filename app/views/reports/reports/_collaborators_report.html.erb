@@ -1,0 +1,23 @@
+<div class="col-md-12">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% @users.each do |user| %>
+        <tr>
+          <td><%= link_to user.full_name, reports_user_path(user) %></td>
+          <td><%= get_seconds_in_hours_minutes(user.total_time_between_dates(@beginning,@end))%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="align-right">
+  <%= link_to '<i class="fa fa-file-excel-o"></i>  Download as Excel'.html_safe, reports_collaborators_excel_path(format: "xlsx", date: @day_selected), class: "btn btn-lg btn-success"%>
+</div>

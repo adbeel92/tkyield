@@ -1,53 +1,50 @@
 <div class="modal fade" id="timeshee-new-modal" tabindex="-1" role="dialog" aria-labelledby="timeshee-new-modal-label" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title text-center" id="timeshee-new-modal-label"><strong>New Time Entry </strong><span> <small><%= @day_selected.strftime("%A, %b %d")  %> </small> </span></h4>
-      </div>
-      <div id="new-timer-form" class="modal-body">
-        <%= form_for(new_timesheet, remote: true) do |f| %>
-          <div class="input-group input-padding">
-            <span class="input-group-addon">Project</span>
-            <%= f.select :project_id, projects_helper.collect{ |t| [t.name, t.id]}, {:prompt => "Select a project" } , class: "form-control"  %>
-          </div>          
-          <div class="input-group input-padding">
-            <span class="input-group-addon">Task</span> 
-            <%= f.select :task_id, @tasks.collect{ |t| [t.name, t.id]}, {:prompt => "Select a task" } , class: "form-control"%> 
-          </div>
-            <%= f.hidden_field :belongs_to_day, value: date_format_on_view(@day_selected) %>
-          <div class="row">
-            <div class="col-sm-9">
-              <div class="field">
-              <%= f.text_area :notes, class: "form-control text-area-style", :rows => "2", placeholder: "Notes (optional)" %>
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="total_time">
-                <%= f.text_field :total_time, class: "form-control time-field-style", placeholder: "0:00"%>
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <%= f.submit 'Start Timer', :class => 'btn btn-primary'%>
-          </div>
-
-        <% end %>
-      </div>
-    </div>
-  </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title text-center" id="timeshee-new-modal-label"><strong>New Time Entry </strong><span> <small><%= day_selected.strftime("%A, %b %d")  %> </small> </span></h4>
+			</div>
+			<div id="new-timer-form" class="modal-body">
+				<%= form_for(new_timesheet, remote: true) do |f| %>
+					<div class="input-group input-padding">
+						<span class="input-group-addon">Project</span>
+						<%= f.select :project_id, grouped_options_for_select(projects_helper, f.object.project_id), {:prompt => " - Select a project -"} , class: "form-control" %>
+					</div>
+					<div class="input-group input-padding">
+						<span class="input-group-addon">Task</span>
+						<%= f.select :task_id, tasks.collect{ |t| [t.name, t.id]}, {:prompt => "- Select a task -" } , class: "form-control", :id => "timesheet_edit_task"%>
+					</div>
+					<%= f.hidden_field :belongs_to_day, value: date_format_on_view(day_selected) %>
+					<div class="row">
+						<div class="col-sm-9">
+							<div class="field">
+							<%= f.text_area :notes, class: "form-control text-area-style", :rows => "2", placeholder: "Notes (optional)" %>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="total_time">
+								<%= f.text_field :total_time, class: "form-control time-field-style", placeholder: "0:00", value: "", id: "new_timesheet_total_time" %>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<%= f.submit 'Start Timer', :class => 'btn btn-primary', id: "new_timesheet_submit" %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script type="text/javascript">
-  $('#timesheet_project_id').change(function () {
-    $.ajax({
-      type:'GET', 
-      url: "<%= tasks_projects_path %>",
-      data: {
-        id : $('#timesheet_project_id').val()
-      },
-      dataType: "script"
-    });
-  });
+	var newTimesheetTotalTime = $("#new_timesheet_total_time");
+	var newTimesheetSubmit = $("#new_timesheet_submit");
+	newTimesheetTotalTime.keyup(function(){
+		if (!$(this).val().trim())
+			newTimesheetSubmit.val("Start Timer");
+		else
+			newTimesheetSubmit.val("Save Timer");
+	});
 </script>

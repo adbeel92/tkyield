@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Staff_report") do |sheet|
+  sheet.add_row ["Colaborator Name","Total time"] ## Header values of Excel
+  @users.each do |user|
+    sheet.add_row [ user.full_name,get_seconds_in_hours_minutes(user.total_time_between_dates(@beginning,@end))]
+  end
+end

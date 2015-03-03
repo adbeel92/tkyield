@@ -1,20 +1,20 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  load_and_authorize_resource
+  load_and_authorize_resource :except => :tasks
   before_action :set_project, only: [:tasks, :show, :edit, :update, :destroy]
-  add_breadcrumb "Dashboard", :root_path 
+  add_breadcrumb "Dashboard", :root_path
   add_breadcrumb "Projects", :projects_path
 
   # GET /projects
   # GET /projects.json
   def index
-    @clients = Client.all
-    @projects = Project.all
+    @clients = Client.order("name ASC").includes(:projects)
   end
 
   # GET /project_tasks.js
   def tasks
-    @tasks = @project.tasks
+    @timesheetId = params["timesheetId"].nil? ? nil : params["timesheetId"]
+    @tasks = @project.tasks.order("name ASC").all
   end
 
   # GET /projects/1

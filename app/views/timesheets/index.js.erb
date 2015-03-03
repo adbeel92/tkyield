@@ -1,5 +1,5 @@
-$('#date_title').html('<%= escape_javascript(render(:partial => "timesheet_day")).html_safe %>');
-$('#timesheet_nav_container').html('<%= escape_javascript(render(:partial => "timesheet_navigation" , locals: {days_of_week: @days_of_week})).html_safe %>');
-$('#timesheets_content').html('<%= escape_javascript(render(:partial => "timesheet_render" , locals: {timesheets_per_date: @timesheets_per_date})).html_safe %>');
+$('#date_title').html('<%= escape_javascript(render(:partial => "timesheet_day", locals: {day_selected: @day_selected})).html_safe %>');
+$('#timesheet_nav_container').html('<%= escape_javascript(render(:partial => "timesheet_navigation" , locals: {days_of_week: @days_of_week, day_selected: @day_selected})).html_safe %>');
+$('#timesheets_content').html('<%= escape_javascript(render(:partial => "timesheet_render" , locals: {timesheets_per_date: @timesheets_per_date, day_selected: @day_selected, tasks: @tasks})).html_safe %>');
 $('#label_total_per_week').html('<%=  get_seconds_in_hours_minutes(current_user.total_time_per_week @day_selected) %>');
 $('#timesheet_belongs_to_day').attr('value', "<%= @day_selected %>");

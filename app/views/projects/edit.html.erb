@@ -1,7 +1,4 @@
 <h1 class="page-header"> Project <small> Editing</small> </h1>
-
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @project , class: "btn btn-primary" %> 
-<%= link_to 'Back', projects_path , class: "btn btn-primary" %> 
+<%= render 'form', project: @project %>
+<%= link_to 'Show', @project , class: "btn btn-primary" %>
+<%= link_to 'Back', projects_path , class: "btn btn-primary" %>

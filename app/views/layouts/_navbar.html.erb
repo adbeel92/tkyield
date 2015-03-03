@@ -1,75 +1,95 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <%= link_to root_path, class: 'navbar-brand' do %>
-           <p><%= image_tag('favicon.ico', width: '20', height: '20') %>
-            Tekton Yield</p>
-        <% end %>
-
-    </div>
-    <% if user_signed_in? %>
-        <!-- Top Menu Items -->
-        <ul class="nav navbar-right top-nav">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <%= current_user.full_name %> <b class="caret"></b></a>
-                <ul class="dropdown-menu">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<%= link_to root_path, class: 'navbar-brand' do %>
+		   <p><%= image_tag('favicon.ico', width: '20', height: '20') %> Tekton Yield</p>
+		<% end %>
+	</div>
+	<% if user_signed_in? %>
+		<!-- Top Menu Items -->
+		<ul class="nav navbar-right top-nav">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <%= current_user.full_name %> <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li>
+						<%= link_to edit_user_registration_path(current_user) do %>
+							</i> Profile</a>
+						<% end %>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<%= link_to destroy_user_session_path, method: :delete do %>
+							<i class="fa fa-fw fa-power-off"></i> Log Out
+						<% end %>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+		<%if user_signed_in? %>
+		  <div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav side-nav">
+				<% if can? :manage, Timesheet %>
+					<li>
+						<%= link_to timesheets_path do %>
+							<i class="fa fa-fw fa-dashboard"></i> Timesheet
+						<% end %>
+					</li>
+				<% end %>
+				<% if can? :manage, Client , Task, Project%>
+                <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#manage" class="" aria-expanded="true">Manage  <i class="fa fa-fw fa-caret-down"></i> </a>
+                    <ul id="manage" class="collapse in" aria-expanded="true">
+                        <li>
+                            <%= link_to clients_path do %>
+								<i class="fa fa-suitcase"></i> Clients
+							<% end %>
+                        </li>
+                        <li>
+							<%= link_to tasks_path do %>
+								<i class="fa fa-fw fa-tasks"></i> Task
+							<% end %>
+						</li>
+	                    <li>
+	                    	<%= link_to projects_path do %>
+								<i class="fa fa-fw fa-folder-open"></i> Projects
+							<% end %>
+						</li>
+                    </ul>
+                </li> 
+                <% end %>
+				<% if can? :manage, Team ,User %>   
+	                <li>
+	                    <a href="javascript:;" data-toggle="collapse" data-target="#staff" class="" aria-expanded="true">Staff <i class="fa fa-fw fa-caret-down"></i>  </a>
+	                    <ul id="staff" class="collapse in" aria-expanded="true">
+							<li>
+		                        <%= link_to teams_path do %>
+		                        	<i class="fa fa-users"></i> Teams
+		                        <% end %> 
+	                    	</li>
+                    	   	<li>
+								<%= link_to users_path do %>
+									<i class="fa fa-fw fa-user"></i> Collaborators
+								<% end %>
+							</li>
+	                    </ul>
+	                </li>
+               	<% end %>
+				<li>
+                    <%= link_to time_stations_path do %>
+                        <i class="fa fa-clock-o"></i> Time Station
+                    <% end %> 
+                </li>
+                <% if can? :manage, Report %>   
                     <li>
-                        <%= link_to edit_user_registration_path(current_user) do %>
-                            </i> Profile</a>
-                        <% end %>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <%= link_to destroy_user_session_path, method: :delete do %>
-                            <i class="fa fa-fw fa-power-off"></i> Log Out
-                        <% end %>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-        <%if user_signed_in? %>
-          <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav side-nav">
-                <% if can? :manage, Client %>   
-                    <li>
-                        <%= link_to clients_path do %>
-                            <i class="fa fa-users"></i> Clients
-                        <% end %> 
-                    </li>
-                <% end %> 
-                <% if can? :manage, Project %>   
-                    <li>
-                        <%= link_to projects_path do %>
-                            <i class="fa fa-fw fa-folder-open"></i>
-                            Projects
-                        <% end %>
-                    </li>
-                <% end %> 
-                <% if can? :manage, Task %>   
-                    <li>
-                        <%= link_to tasks_path do %>
-                            <i class="fa fa-fw fa-tasks"></i> Task
-                        <% end %> 
-                    </li>
-                <% end %> 
-                <% if can? :manage, User %>   
-                    <li>
-                        <%= link_to users_path do %>
-                            <i class="fa fa-fw fa-user"></i> Collaborators
-                        <% end %> 
-                    </li>
-                <% end %> 
-                <% if can? :manage, Timesheet %>   
-                    <li>
-                        <%= link_to timesheets_path do %>
-                            <i class="fa fa-fw fa-dashboard"></i> Timesheet
+                        <%= link_to reports_list_path do %>
+                        	<i class="fa fa-th-list"></i> Reports
                         <% end %> 
                     </li>
                 <% end %> 

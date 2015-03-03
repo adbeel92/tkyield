@@ -1,31 +1,29 @@
 <div class="week_navigation">
-	<%= link_to "<- Week" , '#', :data => {:date => @day_selected.last_week},:id => "last_week_btn", :class => 'change_date btn btn-lg btn-default' %>
-	<%= link_to "Week ->" , '#', :data => {:date => @day_selected.next_week},:id => "next_week_btn", :class => 'change_date btn btn-lg btn-default to-the-right' %> 
+	<%= link_to "<- Week" , '#', :data => {:date => day_selected.last_week},:id => "last_week_btn", :class => 'change_date btn btn-default' %>
+	<%= link_to "Week ->" , '#', :data => {:date => day_selected.next_week},:id => "next_week_btn", :class => 'change_date btn btn-default to-the-right' %>
 </div>
-        
 <div role="tabpanel">
 	<!-- Nav tabs -->
 	<ul class="nav nav-tabs" role="tablist" id="dates-tab">
 		<% days_of_week.each do |day| %>
-			<li role="presentation" class=<%= "active" if date_format_on_view(day) == date_format_on_view(@day_selected)%>>
+			<li role="presentation" class=<%= "active" if date_format_on_view(day) == date_format_on_view(day_selected)%>>
 				<a href="#date-<%= date_format_on_view(day) %>" aria-controls="date-<%= day %>" role="tab" data-toggle="tab" data-day="<%= date_format_on_view(day) %>" data-date="<%= full_date_format(day) %>"> <%= day_name_format(day) %></a>
 			</li>
 		<% end %>
-		<li> 
+		<li>
 			<div id="total_per_week" class="btn btn-lg btn-default">
-				Total:
-				<b id="label_total_per_week"><%= get_seconds_in_hours_minutes(current_user.total_time_per_week @day_selected) %></b>
+				Total: <b id="label_total_per_week"><%= get_seconds_in_hours_minutes(current_user.total_time_per_week day_selected) %></b>
 			</div>
 		</li>
 	</ul>
 </div>
 
 <script type="text/javascript">
-  $('#dates-tab a').click(function () {
-    var day = $(this).data("day");
-    var date = $(this).data("date");
-    $('#timesheet_belongs_to_day').attr('value', day);
-    $('#new_timesheet_modal_date').html(date);
-    $('#date_title').html(date);
-  })
+	$('#dates-tab a').click(function () {
+		var day = $(this).data("day");
+		var date = $(this).data("date");
+		$('#timesheet_belongs_to_day').attr('value', day);
+		$('#new_timesheet_modal_date').html(date);
+		$('#date_title').html(date);
+	})
 </script>

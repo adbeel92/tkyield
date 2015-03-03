@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  in_time: 2015-02-26 17:33:37
+  out_time: 2015-02-26 17:33:37
+  total_time: 1.5
+
+two:
+  user_id: 1
+  in_time: 2015-02-26 17:33:37
+  out_time: 2015-02-26 17:33:37
+  total_time: 1.5
