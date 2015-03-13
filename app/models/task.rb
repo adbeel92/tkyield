@@ -5,8 +5,8 @@ class Task < ActiveRecord::Base
 
   validates :name, presence: true
 
-  def total_time
-    Timesheet.where(task_id: self.id).sum(:total_time)
+  def total_time beginning, ending
+    Timesheet.where(belongs_to_day: beginning..ending,task_id: self.id).sum(:total_time)
   end
   
 end
