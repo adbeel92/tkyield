@@ -83,9 +83,16 @@
                	<% end %>
 				<li>
                     <%= link_to time_stations_path do %>
-                        <i class="fa fa-clock-o"></i> Time Station
+                        <i class="fa fa-clock-o"></i> On Time Activities
                     <% end %> 
                 </li>
+                <% if can? :manage, TimeStation %>
+                    <li>
+                        <%= link_to new_time_station_path do %>
+                        	<i class="fa fa-calculator"></i> Check-In/Out
+                        <% end %> 
+                    </li>
+				<% end %>
                 <% if can? :manage, Report %>   
                     <li>
                         <%= link_to reports_list_path do %>

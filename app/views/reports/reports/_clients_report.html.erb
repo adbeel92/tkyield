@@ -1,3 +1,7 @@
+<br><div class="row align-right">
+  <%= link_to '<i class="fa fa-file-excel-o"></i>  Download as Excel'.html_safe, reports_clients_excel_path(format: "xlsx", date: @day_selected, type: @type), class: "btn btn-success"%>
+</div>
+
 <div class="col-md-12">
   <table class="table table-striped">
     <thead>
@@ -8,16 +12,17 @@
     </thead>
     <tbody>
       <% @clients.each do |client| %>
-        <tr>
-          <td><%= link_to client.name, reports_client_path(client) %></td>
-          <td><%= get_seconds_in_hours_minutes(client.client_total_time_between_dates(@beginning,@end))%></td>
-        </tr>
+        <% if client.client_total_time_between_dates(@beginning,@end) > 0 %>
+          <tr>
+            <td>
+              <%= link_to client.name, reports_client_path(client), :data => {:date => @today, :type => @type} %>
+            </td>
+            <td>
+              <%= get_seconds_in_hours_minutes(client.client_total_time_between_dates(@beginning,@end))%>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
-</div>
-
-
-<div class="align-right">
-  <%= link_to '<i class="fa fa-file-excel-o"></i>  Download as Excel'.html_safe, reports_clients_excel_path(format: "xlsx", date: @day_selected), class: "btn btn-lg btn-success"%>
 </div>

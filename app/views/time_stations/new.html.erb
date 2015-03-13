@@ -1,5 +1,49 @@
-<h1>New Time Station</h1>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-5 col-md-6">
+			<%= render 'form' %>
+		</div>
+		<div id="recent_activities" class="col-lg-7 col-md-6">
+			<%= render 'recent' %>
+		</div>
+	</div>
+</div>
+<%#= link_to 'Back', time_stations_path , class: "btn btn-primary" %>
 
-<%= render 'form' %>
+<style type="text/css">
+	
+@media{
+	#wrapper{
+		padding-left: 0;
+	}
+	.navbar-collapse.collapse {
+		display: none!important;
+	}
+	.navbar-toggle {
+		display: block!important;
+	}
+	.navbar-collapse.in {
+	overflow-y: auto!important;
+	}
+	.collapse.in {
+	display: block!important;
+	visibility: visible!important;
+	}
+}
 
-<%= link_to 'Back', time_stations_path %>
+.field{
+	width: 70%;
+	margin: auto;
+
+	}
+</style>
+
+<script type="text/javascript">
+	 $( document ).on("click",".submit", function(){
+        $.ajax({
+            type:'GET',
+            url: "<%= new_time_station_path %>",
+            dataType: "script"
+        });
+    })
+</script>

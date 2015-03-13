@@ -1,3 +1,3 @@
 class Report 
-  
+
 end

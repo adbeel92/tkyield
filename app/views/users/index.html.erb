@@ -1,29 +1,65 @@
-<% if can? :manage, User %>
-	<%= link_to 'New User', new_user_path , class: "btn btn-lg btn-warning align-right" %>
-<% end %>
+<%= link_to 'New User', new_user_path , class: "btn btn-lg btn-warning align-right" %>
 <h1 class="page-header"> Collaborators <small> Listing</small> </h1>
-<table class="table table-striped table-responsive">
-	<thead>
-		<tr>
-			<th>First name </th>
-			<th>Last name</th>
-			<th>E-mail</th>
-			<th>Rol</th>
-		</tr>
-	</thead>
-	<tbody>
-		 <% @users.each do |user| %>
-			<tr >
-				<td><%= user.first_name %></td>
-				<td><%= user.last_name %></td>
-				<td><%= user.email %></td>
-				<td>
-				<div class="col-md-3"><%= user.role_name %></div>
-				<div class="col-md-3"><i class="fa fa-pencil"></i> <%= link_to 'Edit', edit_user_path(user) %></div>
-				<div class="col-md-3"><i class="fa fa-pencil"></i> <%= link_to 'Assign Projects', show_user_project_user_path(user) %></div>
-				<div class="col-md-3"><%= link_to 'Resend Confirmation', resend_confirmation_user_path(user) %> </div></td>
+<table class="table table-responsive">
+	<% @teams.each do |team| %>
+		<thead class="thead">
+			<tr>
+				<th><%= team.name %></th>
 			</tr>
-			<!-- <a href="/users/confirmation/new" data-remote="true" data-method="post">Resend confirmation</a> -->
-		<% end %>
-	</tbody>
+		</thead>
+		<tbody>
+			<% team.users.includes(:role).each do |user| %>
+				<tr>
+					<td>
+						<div class="col-md-3">
+							<strong><%= user.full_name %></strong>
+						</div>
+						<div class="col-md-3">
+							<%= user.role_name %>
+						</div>
+						<div class="col-md-1">
+							<%= link_to '<i class="fa fa-pencil"></i> Edit'.html_safe, edit_user_path(user),class: "btn btn-default" %>
+						</div>
+						<div class="col-md-2">
+							<%= link_to '<i class="fa fa-folder-open-o"></i> Assign Projects'.html_safe, show_user_project_user_path(user), class: "btn btn-default" %>
+						</div>
+						<div class="col-md-2">
+							<%= link_to '<i class="fa  fa-reply-all"></i> Resend Confirmation'.html_safe, resend_confirmation_user_path(user), class: "btn btn-default" %> 
+						</div>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	<% end %>
+</table>
+
+<table class="table table-responsive">
+	<% @users.each do |user| %>
+		<thead class="thead">
+			<tr>
+				<th style="background-color: #222222;  color: white;">Unnasigned Users</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<div class="col-md-3">
+						<strong><%= user.full_name %></strong>
+					</div>
+					<div class="col-md-3">
+						<%= user.role_name %>
+					</div>
+					<div class="col-md-1">
+						<%= link_to '<i class="fa fa-pencil"></i> Edit'.html_safe, edit_user_path(user),class: "btn btn-default" %>
+					</div>
+					<div class="col-md-2">
+						<%= link_to '<i class="fa fa-folder-open-o"></i> Assign Projects'.html_safe, show_user_project_user_path(user), class: "btn btn-default" %>
+					</div>
+					<div class="col-md-2">
+						<%= link_to '<i class="fa  fa-reply-all"></i> Resend Confirmation'.html_safe, resend_confirmation_user_path(user), class: "btn btn-default" %> 
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	<% end %>
 </table>

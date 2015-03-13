@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303165244) do
+ActiveRecord::Schema.define(version: 20150310193957) do
 
   create_table "clients", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -27,11 +27,6 @@ ActiveRecord::Schema.define(version: 20150303165244) do
     t.datetime "updated_at",              null: false
     t.index ["client_id"], :name => "fk__projects_client_id"
     t.foreign_key ["client_id"], "clients", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_projects_client_id"
-  end
-
-  create_table "reports", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -99,13 +94,13 @@ ActiveRecord::Schema.define(version: 20150303165244) do
 
   create_table "time_stations", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
-    t.datetime "in_time"
-    t.datetime "out_time"
     t.float    "total_time", limit: 24, default: 0.0
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.boolean  "working",    limit: 1
+    t.integer  "parent_id",  limit: 4
+    t.index ["parent_id"], :name => "fk__time_stations_parent_id"
     t.index ["user_id"], :name => "fk__time_stations_user_id"
+    t.foreign_key ["parent_id"], "time_stations", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_time_stations_parent_id"
     t.foreign_key ["user_id"], "users", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_time_stations_user_id"
   end
 

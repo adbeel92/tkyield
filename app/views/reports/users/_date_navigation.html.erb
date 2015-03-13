@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="btn-group col-lg-3" style="padding-top: 15px">
+        <button type="button" class="change-report btn btn-default <%='active' if @type=='Monthly'%>" data-type = "Monthly" data-date = <%= @day_selected %> data-user = <%= @user.id %>> Monthly </button>
+        <button type="button" class="change-report btn btn-default <%='active' if @type=='Weekly'%>" data-type = "Weekly" data-date = <%= @day_selected %> data-user = <%= @user.id %>> Weekly </button>
+    </div> 
+</div>
+
+<div class="row">
+    <div class="btn-group col-lg-3" style="
+    padding-top: 15px">
+        <button type="button" class="change-report btn btn-default" data-user = <%= @user.id %> data-type = <%= @type %> data-date = <%= @type=='Weekly' ? @day_selected.last_week : @day_selected.last_month%> >
+            <i class="fa fa-arrow-left"></i>
+        </button>
+        <button type="button" class="change-report btn btn-default" data-user = <%= @user.id %> data-type = <%= @type %> data-date = <%= @type=='Weekly' ? @day_selected.next_week : @day_selected.next_month%> >
+            <i class="fa fa-arrow-right"></i>
+        </button>
+    </div> 
+    <div class="col-lg-6">
+        <h3><strong>
+            This
+            <% if @type =="Weekly"%>
+            Week : </strong> <small> <%= full_date_format(@beginning) %> - <%= full_date_format(@end) %> </small> 
+            <% else %>
+            Month : </strong> <small><%= month_format(@day_selected) %> </small>
+            <% end %>
+            <%= year_format(@day_selected) %></h3> 
+    </div>
+    <div class="col-lg-2 to-the-right" style="
+    padding-top: 15px">
+    <% if @type == "Weekly" %>
+     <%= link_to '<i class="fa fa-arrow-down"></i> Current Week'.html_safe , '#', :data => {:date => @today, :type => @type, :user => @user.id},:id => "today_date", :class => 'change-report btn btn-primary' %>
+     <% elsif @type == "Monthly" %>
+     <%= link_to '<i class="fa fa-arrow-down"></i> Current Month'.html_safe , '#', :data => {:date => @today, :type => @type, :user => @user.id},:id => "today_date", :class => 'change-report btn btn-primary' %>
+     <% end %>
+     </div>
+</div>
+<br>
+<p>Hours Tracked: <%= get_seconds_in_hours_minutes(@user.total_time) %></p>
+<div class="tabbable tabs-left">
+<ul class="nav nav-pills nav-justified">
+    <li class="<%= 'active' if @tab == 'tab1' %>"><a href="#tab1" data-toggle="tab">
+    <i class="fa fa-users"></i> Projects</a></li>
+    <li class="<%= 'active' if @tab == 'tab2' %>"> <a href="#tab2" data-toggle="tab">
+    <i class="fa fa-user"></i> Tasks</a></li>
+</ul>
+
+<div class="tab-content" id="tabContainer">
+    <div class="<%= if @tab == 'tab1' then 'tab-pane active'  else 'tab-pane' end%>" id="tab1">
+        <%= render "projects" %>
+    </div>
+    <div class="<%= if @tab == 'tab2' then 'tab-pane active'  else 'tab-pane' end%>" id="tab2">
+        <%= render "tasks" %>
+    </div>
+</div>
+</div>

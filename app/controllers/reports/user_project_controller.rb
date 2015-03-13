@@ -3,6 +3,7 @@ module Reports
     before_action :authenticate_user!
     add_breadcrumb "Dashboard", :root_path 
     add_breadcrumb "Reports", :reports_list_path 
+    add_breadcrumb "Timesheet Report", :reports_dash_path
     
     def show
       add_breadcrumb "Collaborator - Project", :reports_user_project_path

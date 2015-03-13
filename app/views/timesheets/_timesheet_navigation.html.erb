@@ -1,6 +1,6 @@
 <div class="week_navigation">
-	<%= link_to "<- Week" , '#', :data => {:date => day_selected.last_week},:id => "last_week_btn", :class => 'change_date btn btn-default' %>
-	<%= link_to "Week ->" , '#', :data => {:date => day_selected.next_week},:id => "next_week_btn", :class => 'change_date btn btn-default to-the-right' %>
+	<%= link_to '<i class="fa fa-arrow-left"></i> Week'.html_safe , '#', :data => {:date => day_selected.last_week},:id => "last_week_btn", :class => 'change_date btn btn-default' %>
+	<%= link_to 'Week <i class="fa fa-arrow-right"></i>'.html_safe , '#', :data => {:date => day_selected.next_week},:id => "next_week_btn", :class => 'change_date btn btn-default to-the-right' %>
 </div>
 <div role="tabpanel">
 	<!-- Nav tabs -->

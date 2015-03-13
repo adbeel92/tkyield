@@ -1,48 +1,33 @@
 <%= link_to 'New Project', new_project_path , class: "btn btn-lg btn-warning align-right" %>
 <h1 class="page-header"> Projects <small> Listing</small> </h1>
 <div class="col-md-12">
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Client</th>
-				<th>Projects</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @clients.each do |client| %>
-				<% projects_size = client.projects.size %>
-				<% if projects_size > 0 %>
-					<% client.projects.each_with_index do |project, index| %>
-						<tr>
-							<% if index == 0 %>
-								<td rowspan="<%= projects_size %>">
-										<%= client.name %>
-								</td>
-							<% end %>
-							<td>
-								<div class="col-md-6">
-									<%= project.name %>
-								</div>
-								<div class="col-md-2">
-									 <%= link_to '<i class="fa fa-eye"></i> Show'.html_safe, project ,class: "btn btn-default"%>
-								</div>
-								<div class="col-md-2">
-									<%= link_to '<i class="fa fa-pencil"></i> Edit'.html_safe, edit_project_path(project),class: "btn btn-default" %>
-								</div>
-								<div class="col-md-2">
-									<%= link_to '<i class="fa fa-times"></i> Destroy'.html_safe, project, method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-default" %>
-								</div>
-							</td>
-						</tr>
-					<% end %>
-				<% else %>
+	<table class="table table-responsive">
+		<% @clients.each do |client| %>
+			<thead class="thead">
+				<tr>
+					<th><%= client.name %></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% client.projects.each_with_index do |project, index| %>
 					<tr>
-						<td colspan="2">
-							<%= client.name %>
+						<td>
+							<div class="col-md-6">
+								<%= project.name %>
+							</div>
+							<div class="col-md-2">
+								 <%= link_to '<i class="fa fa-eye"></i> Show'.html_safe, project ,class: "btn btn-default"%>
+							</div>
+							<div class="col-md-2">
+								<%= link_to '<i class="fa fa-pencil"></i> Edit'.html_safe, edit_project_path(project),class: "btn btn-default" %>
+							</div>
+							<div class="col-md-2">
+								<%= link_to '<i class="fa fa-times"></i> Delete'.html_safe, project, method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-default" %>
+							</div>
 						</td>
 					</tr>
 				<% end %>
-			<% end %>
-		</tbody>
+			</tbody>
+		<% end %>
 	</table>
 </div>

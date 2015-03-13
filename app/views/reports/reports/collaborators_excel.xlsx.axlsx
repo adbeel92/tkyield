@@ -1,7 +1,10 @@
 wb = xlsx_package.workbook
-wb.add_worksheet(name: "Staff_report") do |sheet|
-  sheet.add_row ["Colaborator Name","Total time"] ## Header values of Excel
-  @users.each do |user|
-    sheet.add_row [ user.full_name,get_seconds_in_hours_minutes(user.total_time_between_dates(@beginning,@end))]
+wb.add_worksheet(name: "Projects_report") do |sheet|
+  sheet.add_row ["Report:","Collaborators"]
+  sheet.add_row ["From:", @beginning, "to", @end] 
+  sheet.add_row [""] 
+  sheet.add_row ["Date","First name", "Last name","Team","Project","Client","Task","Notes","Hours"] ## Header values of Excel
+  @timesheet.each do |ts|
+    sheet.add_row [ ts.belongs_to_day,ts.user.first_name,ts.user.last_name,ts.user.team.name, ts.project.client.name, ts.project.name,ts.task.name,ts.notes, get_seconds_in_hours_minutes(ts.total_time)]
   end
 end

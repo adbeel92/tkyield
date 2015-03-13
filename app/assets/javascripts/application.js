@@ -17,6 +17,7 @@
 //= require jquery.plugin.js
 //= require jquery.countdown.js 
 //= require_tree .
+//= require bootstrap-datepicker
 
  jQuery(document).ready(function () {
     $('select[data-option-dependent=true]').each(function (i) {

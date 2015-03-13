@@ -1,3 +1,6 @@
+<br><div class="row align-right">
+  <%= link_to '<i class="fa fa-file-excel-o"></i>   Download as Excel'.html_safe, reports_projects_excel_path(format: "xlsx", date: @day_selected, type: @type), class: "btn btn-success"%>
+</div>
 <div class="col-md-12">
   <table class="table table-striped">
     <thead>
@@ -9,16 +12,14 @@
     </thead>
     <tbody>
       <% @projects.each do |project| %>
-        <tr>
-          <td><%= link_to project.name, reports_project_path(project) %></td>
-          <td><%= project.client.name %></td>
-          <td><%= get_seconds_in_hours_minutes(project.project_total_time_between_dates(@beginning,@end)) %></td>                   
-        </tr>
+        <% if project.project_total_time_between_dates(@beginning,@end) > 0 %>
+          <tr>
+            <td><%= link_to project.name, reports_project_path(project) %></td>
+            <td><%= project.client.name %></td>
+            <td><%= get_seconds_in_hours_minutes(project.project_total_time_between_dates(@beginning,@end)) %></td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
-</div>
-
-<div class="align-right">
-  <%= link_to '<i class="fa fa-file-excel-o"></i>  Download as Excel'.html_safe, reports_projects_excel_path(format: "xlsx"), class: "btn btn-lg btn-success"%>
 </div>

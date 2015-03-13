@@ -109,4 +109,12 @@ class User < ActiveRecord::Base
     Timesheet.total_time_in_projects_by_user(self)
   end
 
+  def total_time_per_project (project,beginning, ending)
+    Timesheet.where(belongs_to_day: beginning..ending,user: self, project: project).sum(:total_time)
+  end
+
+  def total_time_per_task (task,beginning, ending)
+    Timesheet.where(belongs_to_day: beginning..ending,user: self, task: task).sum(:total_time)
+  end
+
 end

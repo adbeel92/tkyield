@@ -1,0 +1,40 @@
+<div class="align-right">
+<%= link_to '<i class="fa fa-file-excel-o"></i>  Download as Excel'.html_safe, reports_on_time_index_path(format: "xlsx"), class: "btn btn-success"%>
+</div>
+<h1 class="page-header"> On Time Report <small> </small> </h1>
+
+<div id="filters">
+    <%= render "filters" %>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('.datepicker').datepicker();
+    });
+
+
+    function findActiveTab(){
+        var active;
+        $("#tabContainer").children('.tab-pane').each(function() {
+            if ($(this).hasClass("active")){
+                active = $(this);
+            }
+        });
+        return active.attr('id');
+    }
+
+    $( document ).on("click",".filter-report", function(){
+        var teamForParam = $(this).data('team');
+        var collaboratorForParam = $(this).data('collaborator');
+        var beginning = $(this).data('beginning');
+        var end = $(this).data('end');
+        var tabForParam = findActiveTab();
+        $.ajax({
+            type:'GET',
+            url: "<%= reports_on_time_index_path %>",
+            data: { team : teamForParam, date : dateForParam , tab : tabForParam },
+            dataType: "script"
+        });
+    })  
+
+</script>

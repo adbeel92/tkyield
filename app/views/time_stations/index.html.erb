@@ -1,35 +1,36 @@
-<h1 class="page-header"> Time Station <small> for <%= current_user.full_name %></small> </h1>
-
+<h1 class="page-header"> On Time Activities <small> for <%= current_user.full_name %></small></h1>
 <table class="table table-striped table-responsive">
   <thead>
     <tr>
-      
+      <th>Date</th>
       <th>In time</th>
       <th>Out time</th>
       <th>Total time</th>
-      <th colspan="3"></th>
     </tr>
   </thead>
-
   <tbody>
-    <% @current_user.time_stations.each do |time_station| %>
+    <% @in_times.reverse.each do |time_station| %>
       <tr>
+        <td><%= full_date_format(time_station.created_at)%></td>
         <td>
-          <% if !time_station.in_time.nil? %>
-            <%= datetime_format(time_station.in_time) %>
+          <%= datetime_format(time_station.created_at) %>
+        </td>
+        <td>
+           <% if !time_station.children.nil? %>
+            <%= datetime_format(time_station.children.created_at) %>
           <% else %>
+            --
           <%end%>
         </td>
         <td>
-           <% if !time_station.out_time.nil? %>
-            <%= datetime_format(time_station.out_time) %>
-          <% else %>
-          <%end%>
+        <% if !time_station.children.nil? %>
+        <%= get_seconds_in_hours_minutes(time_station.children.total_time) %> hours
+        <% else %>
+        <%= get_seconds_in_hours_minutes(time_station.total_time) %> hours
+        <%end%>
         </td>
-        <td><%= get_seconds_in_hours_minutes(time_station.total_time) %> hours</td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%#= link_to 'New Time station', new_time_station_path %>

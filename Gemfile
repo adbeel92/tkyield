@@ -54,8 +54,15 @@ gem 'flipclockjs-rails', '~> 0.5.5b.1'
 
 #Use acts_as_xlsx to turn any ActiveRecord::Base inheriting class into an excel spreadsheet.
 gem 'acts_as_xlsx', '~> 1.0.6'
+
 #Axlsx-Rails provides a renderer and a template handler. It adds the :xlsx format and parses .xlsx.axlsx templates. 
 gem 'axlsx_rails', '~> 0.3.0'
+
+## Gemfile for Rails 3+, Sinatra, and Merb
+gem 'will_paginate', '~> 3.0.6'
+
+# Use BootstrapDatepicker for having a format of selecting dates.
+gem 'bootstrap-datepicker-rails', '~> 1.1.1.1'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

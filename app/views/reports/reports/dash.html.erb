@@ -4,22 +4,24 @@
 
 <script type="text/javascript">
 
-    $( document ).on("click",".change-week", function(){
-        var dateForParam = $(this).data('date');
-        $.ajax({
-            type:'GET',
-            url: "<%= reports_dash_path %>",
-            data: { date : dateForParam },
-            dataType: "script"
+    function findActiveTab(){
+        var active;
+        $("#tabContainer").children('.tab-pane').each(function() {
+            if ($(this).hasClass("active")){
+                active = $(this);
+            }
         });
-    })
+        return active.attr('id');
+    }
 
-    $( document ).on("click",".change-date", function(){
+    $( document ).on("click",".change-report", function(){
         var dateForParam = $(this).data('date');
+        var typeForParam = $(this).data('type');
+        var tabForParam = findActiveTab();
         $.ajax({
             type:'GET',
             url: "<%= reports_dash_path %>",
-            data: { date : dateForParam },
+            data: { type : typeForParam, date : dateForParam, tab : tabForParam },
             dataType: "script"
         });
     })

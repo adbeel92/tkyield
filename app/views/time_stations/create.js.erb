@@ -1,0 +1,9 @@
+<% if !@user %>
+	alert("Pin inválido")
+<% elsif @is_in %>
+	alert("Bienvenido <%= @user.full_name %>");
+	$("#pin_code").val("");
+<% else %>
+	alert("Hasta luego <%= @user.full_name %>");
+	$("#pin_code").val("");
+<% end %>
