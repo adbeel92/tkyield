@@ -1,0 +1,29 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "StaffReport") do |sheet|
+  
+  sheet.add_row [" Report:","On time Report"]
+
+  if !@selected_team.blank? and @selected_collaborator.blank?
+    sheet.add_row ["Team:", @selected_team.name]
+  elsif !@selected_collaborator.blank?
+    sheet.add_row ["Team:", @selected_team.name]
+    sheet.add_row ["Collaborator:", @selected_collaborator.full_name]
+  end
+
+  sheet.add_row ["From:", @beginning, "to", @end] 
+  sheet.add_row [""] 
+  
+  days = days_between_dates(@beginning, @end)
+  row = ["Collaborators"]
+  row.concat(days)
+  sheet.add_row row ## Header values of Excel
+
+  @filtered_users.each do |user|
+    total = TimeStation.totals_per_day_between_dates(@beginning,@end,user)
+    rows = [user.full_name]
+    rows.concat(total.map{|t| total_time_excel_format(t)})
+    sheet.add_row rows
+  end
+
+end
+

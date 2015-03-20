@@ -1,0 +1,232 @@
+.modal 
+	.modal-header > h4 > span{
+	    float: right;
+	    position: absolute;
+	    right: 15px;
+	}
+
+	.input-padding{
+		padding-bottom: 10px;
+
+	}
+
+	.text-area-style{
+		overflow: hidden;
+		word-wrap: break-word;
+		resize: none;
+		height: 56px;
+	}
+
+	.time-field-style{
+		display: block;
+		font-size: 30px;
+		font-weight: 500;
+		height: 56px;
+		line-height: 38px;
+		padding-left: 0;
+		text-align: right;
+	}
+
+.week_navigation{
+	padding-bottom: 20px;
+}
+
+.btn-toolbar{
+	padding-top: 20px;
+	padding-right: 20px;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{
+	background-color: #337ab7;
+	color: white;
+	border: 1px solid #ddd;
+	border-bottom-color: transparent;
+}
+
+
+.nav-tabs>li:last-child{
+	width: 16%;
+	text-align: center;
+}
+
+.nav-tabs>li{
+	width: 12%;
+}
+
+.nav-tabs>li >a{
+	border: 1px solid;
+	border-bottom: none;
+}
+
+.to-the-right{
+	float:right;	
+    margin-right: 5px;
+}
+
+.clock{
+	
+}
+.day-view-entry {
+border-bottom: 1px solid #cccccc;
+font-size: 14px;
+}
+
+.day-view-entry > table{
+	width: 100%;
+}
+
+.day-view-entry-list{
+	padding-left: 0px;
+	margin-top: 10px;
+	margin-bottom: 10px; 
+}
+
+.day-view-entry .entry-info {
+
+word-wrap: break-word;
+}
+
+.day-view-entry .entry-time {
+font-size: 21px;
+font-weight: bold;
+line-height: 39px;
+text-align: right;
+width: 55px; }
+.day-view-entry .entry-button {
+line-height: 37px;
+padding-left: 0;
+padding-right: 0;
+text-align: right;
+width: 90px;}
+.day-view-entry .edit-button {
+line-height: 37px;
+width: 30px;}
+
+#project_client{
+	font-size: 30;
+	font-weight: bold;
+}
+
+#no_time_entry{
+	height: 200px;
+	padding: 55px;
+	background-color: #F5F5F5;
+	font-style: italic;
+}
+
+.cell-header{
+	padding-left: 7px;
+	margin: 0;
+	border: none;
+	h3{
+		font-size: 1.4em;
+		margin: 5px 0;
+	}
+	.timesheet-task{
+		color: black;
+	}
+	small{
+		font-size: 0.7em;
+	}
+}
+
+.stopped-timer{
+	font-size: 14px;
+	height: 35px;
+	line-height: 35px;
+	width: 74px;
+	background: #fafafa;
+	background: -webkit-linear-gradient(top, #fff, #eee);
+	background: -moz-linear-gradient(top, #fff, #eee);
+	background: -o-linear-gradient(top, #fff, #eee);
+	background: linear-gradient(to bottom, #fff, #eee);
+	border: 1px solid #bbbbbb;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(255,255,255,0.2);
+	color: #555555;
+	cursor: pointer;
+	display: inline-block;
+	font-weight: 500;
+	margin: 0;
+	outline: 0;
+	padding: 0 4px;
+	text-align: center;
+	text-shadow: 0 1px 0 white;
+	text-decoration: none;
+	vertical-align: middle;
+	white-space: nowrap;
+	-webkit-font-smoothing: antialiased;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	.running-icon{
+		border: 2px solid rgba(0,0,0,0.3);
+		border-radius: 30px;
+		box-shadow: 0 1px 0 white, inset 0 1px 0 white;
+		float: left;
+		height: 21px;
+		margin: 6px 0 0 4px;
+		width: 21px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		i{
+			background: url(<%= asset_path 'stopped-timer.png' %>) no-repeat;
+			background-size: 21px 21px;
+			display: block;
+			height: 21px;
+			margin: -2px 0 0 -2px;
+			width: 21px;
+		}
+	}
+}
+
+.running-timer{
+	background: #1F8Fe5;
+	background: -webkit-linear-gradient(top, #53b2fc, #1F8Fe5);
+	background: -moz-linear-gradient(top, #53b2fc, #1F8Fe5);
+	background: -o-linear-gradient(top, #53b2fc, #1F8Fe5);
+	background: linear-gradient(to bottom, #53b2fc, #1F8Fe5);
+	color: white;
+	font-weight: bold;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+	font-size: 14px;
+	height: 35px;
+	line-height: 32px;
+	width: 74px;
+	border: 1px solid #075fa9;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px rgba(255,255,255,0.2);
+	cursor: pointer;
+	display: inline-block;
+	margin: 0;
+	outline: 0;
+	padding: 0 4px;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	white-space: nowrap;
+	-webkit-font-smoothing: antialiased;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	.running-icon{
+		float: left;
+		height: 21px;
+		margin: 6px 0 0 4px;
+		width: 21px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		i{
+			background: url(<%= asset_path 'running-timer.gif' %>) no-repeat;
+			background-size: 21px 21px;
+			display: block;
+			height: 26px;
+			margin: -2px 0 0 -2px;
+			width: 26px;
+		}
+	}
+	&:hover{
+		color: #EEE;
+	}
+}

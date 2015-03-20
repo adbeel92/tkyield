@@ -1,0 +1,55 @@
+<div class="align-right">
+<%= link_to '<i class="fa fa-file-excel-o"></i>  Download as Excel'.html_safe, reports_on_time_index_path(format: "xlsx",:team => @selected_team, :collaborator => @selected_collaborator ,:beginning => date_format(@beginning), :end => date_format(@end)), class: "btn btn-success"%>
+</div>
+<h1 class="page-header"> On Time Report <small> </small> </h1>
+<%= form_tag(reports_on_time_index_path,  {:method => :get} ) do %>
+    <div class="row">
+        <div class="col-lg-6 text-center">
+        	<strong>Team</strong>
+        	<%= select_tag "team",options_from_collection_for_select(@teams, "id", "name", @selected_team.try(:id)), prompt: "- Select a Team -" ,class:"form-control selected_team_id",:data => { :teamId => @team}, :id => "selected_team_#{@team}"%>
+            
+        </div>
+        <div class="col-lg-6 text-center">
+            <strong>Collaborators</strong>
+            <%= select_tag "collaborator",options_from_collection_for_select(@collaborators, "id", "full_name", @selected_collaborator.try(:id)), prompt: "- Select a Collaborator -" ,class:"form-control", :id => "select_task_#{@team}"%>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-1 text-center">
+            From: 
+        </div>
+        <div class="col-lg-5 text-center">
+            <%= text_field_tag "beginning",nil, class:"form-control datepicker", placeholder: date_format(@beginning) %>
+        </div>
+        <div class="col-lg-1 text-center">
+            to:
+        </div>
+        <div class="col-lg-5 text-center">
+            <%= text_field_tag "end",nil, class:"form-control datepicker" , placeholder: date_format(@end)%>
+        </div>
+    </div>
+    <br>
+    <div class="align-right">
+        <div><%= submit_tag 'Go', :data => {:team => @team, :collaborator => @collaborator , :beginning => @beginning, :end => @end}, class:"btn btn-warning" %></div>
+    </div>
+<% end %>
+<br><br>
+<div class="row">
+    <div class="tabbable tabs-left" >
+        <ul class="nav nav-pills nav-justified">
+            <li class="<%= 'active' if @tab == 'tab1' %>"><a href="#tab1" data-toggle="tab">
+            <i class="fa fa-history"></i> Daily Activity</a></li>
+            <li class="<%= 'active' if @tab == 'tab2' %>"> <a href="#tab2" data-toggle="tab">
+            <i class="fa fa-pie-chart"></i> Summary Activity</a></li>
+        </ul>
+        <div class="tab-content" id="tabContainer">
+            <div class="<%= if @tab == 'tab1' then 'tab-pane active'  else 'tab-pane' end%>" id="tab1" style="overflow: auto;">
+        		<%= render "daily" %>
+            </div>
+            <div class="<%= if @tab == 'tab2' then 'tab-pane active'  else 'tab-pane' end%>" id="tab2" style="overflow: auto;">
+        		<%= render "summary" %>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div id="filters">
+    <%= render "filters" %>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('.datepicker').datepicker();
+    });
+
+
+    function findActiveTab(){
+        var active;
+        $("#tabContainer").children('.tab-pane').each(function() {
+            if ($(this).hasClass("active")){
+                active = $(this);
+            }
+        });
+        return active.attr('id');
+    }
+
+    $( document ).on("click",".filter-report", function(){
+        var teamForParam = $(this).data('team');
+        var collaboratorForParam = $(this).data('collaborator');
+        var beginning = $(this).data('beginning');
+        var end = $(this).data('ending');
+        var tabForParam = findActiveTab();
+        $.ajax({
+            type:'GET',
+            url: "<%= reports_on_time_index_path %>",
+            data: { team : teamForParam, tab : tabForParam, collaborator : collaboratorForParam},
+            dataType: "script"
+        });
+    })  
+
+    $( document ).on("change",".selected_team_id", function(){
+        var teamId = $(this).val();
+        $.ajax({
+            type:'GET',
+            url: "<%= collaborators_teams_path %>",
+            data: {
+                id : teamId,
+            },
+            dataType: "script"
+        });
+    })
+
+</script>

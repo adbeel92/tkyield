@@ -1,0 +1,10 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Projects_report") do |sheet|
+  sheet.add_row ["Report:","Collaborators"]
+  sheet.add_row ["From:", @beginning, "to", @end] 
+  sheet.add_row [""] 
+  sheet.add_row ["Date","First name", "Last name","Team","Project","Client","Task","Notes","Hours"] ## Header values of Excel
+  @timesheet.each do |ts|
+    sheet.add_row [ date_format(ts.belongs_to_day),ts.user.first_name,ts.user.last_name,ts.user.team_name, ts.project.client.name, ts.project.name,ts.task.name,ts.notes, total_time_excel_format(ts.total_time)]
+  end
+end

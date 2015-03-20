@@ -31,13 +31,21 @@
     <%= f.text_field :last_name, autofocus: true, size: 30 %>
   </div>
 
+  <div class="field">
+    <%= f.label :qr_code %><br />
+    <%= f.text_field :qr_code, size: 30 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :pin_code %><br />
+    <%= f.text_field :pin_code, size: 30 %>
+  </div>
+
   <div class="actions">
     <br>
     <%= button_to('Sign Up', new_user_registration_path, :class => 'btn btn-large btn-primary')  %>
 
   </div>
-
-  
 
 <% end %>
 

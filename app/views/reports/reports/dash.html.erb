@@ -1,0 +1,44 @@
+<div id="reports_navigation">
+    <%= render "reports_navigation" %>
+</div>
+
+<script type="text/javascript">
+
+    function findActiveTab(){
+        var active;
+        $("#tabContainer").children('.tab-pane').each(function() {
+            if ($(this).hasClass("active")){
+                active = $(this);
+            }
+        });
+        return active.attr('id');
+    }
+
+    $( document ).on("click",".change-report", function(){
+        var dateForParam = $(this).data('date');
+        var typeForParam = $(this).data('type');
+        var tabForParam = findActiveTab();
+        var teamId = $(this).data('teamid');
+        $.ajax({
+            type:'GET',
+            url: "<%= reports_dash_path %>",
+            data: { type : typeForParam, date : dateForParam, tab : tabForParam, teamId : teamId },
+            dataType: "script"
+        });
+    })
+
+    $( document ).on("change",".filter_collaborators", function(){
+        var teamId = $(this).val();
+        var dateForParam = $(this).data('date');
+        var typeForParam = $(this).data('type');
+        var tabForParam = findActiveTab();
+        $.ajax({
+            type:'GET',
+            url: "<%= reports_dash_path %>",
+            data: { type : typeForParam, date : dateForParam, tab : tabForParam, teamId : teamId },
+            dataType: "script"
+        });
+    })
+
+
+</script>

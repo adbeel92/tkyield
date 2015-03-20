@@ -1,0 +1,33 @@
+<br>
+<div class="row">
+  <div class="col-lg-2">
+    <strong>Filter teams:</strong>
+  </div>
+  <div class="col-lg-3">
+    <%= select_tag "team",options_from_collection_for_select(@teams, "id", "name", @selected_team.try(:id)), prompt: "- Select a team -" ,class:"form-control filter_collaborators", :data => { :beginning => @beginning, :end => @end, date: @day_selected, type: @type}%>
+  </div>
+  <div class="align-right">
+    <%= link_to '<i class="fa fa-file-excel-o"></i>  Download as Excel'.html_safe, reports_collaborators_excel_path(format: "xlsx", date: @day_selected, type: @type, :teamId => @selected_team.try(:id)), class: "btn btn-success"%>
+  </div>
+</div>
+
+<div class="col-md-12">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <% if user.total_time_between_dates(@beginning,@end) > 0 %>
+          <tr>
+            <td><%= link_to user.full_name, reports_user_path(user, date: @day_selected, type: @type) %></td>
+            <td><%= get_seconds_in_hours_minutes(user.total_time_between_dates(@beginning,@end))%></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

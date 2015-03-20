@@ -1,0 +1,26 @@
+<h2 class="page-header"> <%= @user.full_name %> <small> working on </small> <%= @project.name %> </h2>
+<p>Hours Tracked: <%= get_seconds_in_hours_minutes(@total) %></p>
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="projects">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Task </th>
+              <th>Notes </th>
+              <th>Hours </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @timesheets.each do |timesheet| %>
+              <tr>
+                <td><%= timesheet.task.name %></td>
+                <td><%= timesheet.notes %></td>
+                <td><%= get_seconds_in_hours_minutes(timesheet.total_time) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>

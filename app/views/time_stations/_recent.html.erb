@@ -1,0 +1,31 @@
+<table class="table table-striped table-responsive">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>In/Out</th>
+      <th>Time</th>      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @recent.each do |time_station| %>
+      <tr>
+        <td><%= time_station.user.full_name %>
+        <td> 
+        <% if time_station.parent_id.nil? %>
+          IN
+        <% else %>
+          OUT
+        <% end %>
+        </td>
+        <td>
+        <% if time_station.parent_id.nil? %>
+         <%= datetime_format(time_station.created_at) %>
+        <% else %>
+         <%= datetime_format(time_station.created_at) %>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

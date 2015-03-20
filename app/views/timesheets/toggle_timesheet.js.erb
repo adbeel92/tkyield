@@ -4,12 +4,16 @@ $('.clock').each(function() {
 	if ($(this).attr('data-isrunning') == "true"){
 		$(this).countdown('pause');
 		$(this).attr('data-isrunning', "false");
-		$('#timesheet_btn_' + elementId).html('Start');
+		$('#timesheet_btn_' + elementId).html("<b class='running-icon'><i></i></b> Start");
+		$('#timesheet_btn_' + elementId).removeClass('running-timer');
+		$('#timesheet_btn_' + elementId).addClass('stopped-timer');
+		// $('#timesheet_start_' + elementId).html('<%= escape_javascript(render(:partial => "timesheet_timer_start", locals: { timesheet: @timesheet })).html_safe %>');
 	} else {
 		if (elementId == timesheetId){
 			$(this).countdown('resume');
 			$(this).attr('data-isrunning', "true");
 			$('#timesheet_btn_' + elementId).html('Stop');
+			$('#timesheet_start_' + elementId).html('<%= escape_javascript(render(:partial => "timesheet_timer_stop", locals: { timesheet: @timesheet })).html_safe %>');
 		}
 	}
 });
