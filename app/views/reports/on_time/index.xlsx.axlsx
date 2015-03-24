@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "StaffReport") do |sheet|
+  sheet.add_row ["Name","In Time","Out Time","Total Time"] ## Header values of Excel
+  @time_stations.each do |time_station|
+    sheet.add_row [ time_station.user.full_name, datetime_format(time_station.in_time),datetime_format(time_station.out_time),time_station.total_time]
+  end
+end

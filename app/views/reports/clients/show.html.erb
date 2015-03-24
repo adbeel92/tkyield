@@ -1,0 +1,30 @@
+<div id="date_navigation">
+    <%= render "date_navigation" %>
+</div>
+
+<script type="text/javascript">
+
+    function findActiveTab(){
+        var active;
+        $("#tabContainer").children('.tab-pane').each(function() {
+            if ($(this).hasClass("active")){
+                active = $(this);
+            }
+        });
+        return active.attr('id');
+    }
+
+    $( document ).on("click",".change-report", function(){
+        var dateForParam = $(this).data('date');
+        var typeForParam = $(this).data('type');
+        var client = $(this).data('client');
+        var tabForParam = findActiveTab();
+        $.ajax({
+            type:'GET',
+            url: "<%= reports_client_path('client_id') %>".replace("client_id",client),
+            data: { type : typeForParam, date : dateForParam , tab : tabForParam },
+            dataType: "script"
+        });
+    })
+
+</script>

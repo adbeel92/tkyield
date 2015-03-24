@@ -16,8 +16,8 @@
 //= require jquery_nested_form
 //= require jquery.plugin.js
 //= require jquery.countdown.js 
-//= require flipclock.min
 //= require_tree .
+//= require bootstrap-datepicker
 
  jQuery(document).ready(function () {
     $('select[data-option-dependent=true]').each(function (i) {

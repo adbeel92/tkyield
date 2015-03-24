@@ -139,6 +139,10 @@ ul.alert-dropdown {
         outline: none;
         background-color: #000 !important;
     }
+    .side-nav li a:active{
+        color: #fff;
+        background-color: #080808;
+    }
 }
 
 .side-nav>li>ul {

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @time_station.user_id %>
+</p>
+
+<p>
+  <strong>In time:</strong>
+  <%= @time_station.in_time %>
+</p>
+
+<p>
+  <strong>Out time:</strong>
+  <%= @time_station.out_time %>
+</p>
+
+<p>
+  <strong>Total time:</strong>
+  <%= @time_station.total_time %>
+</p>
+
+<%= link_to 'Edit', edit_time_station_path(@time_station) %> |
+<%= link_to 'Back', time_stations_path %>
