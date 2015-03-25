@@ -1,4 +1,4 @@
-<%= link_to 'New Client', new_client_path , class: "btn btn-lg btn-warning align-right"%>
+<%= link_to 'New Client', new_client_path , class: "btn btn-lg btn-warning align-right"%>  
 
 <h1 class="page-header"> Clients <small> Listing</small> </h1>
 
@@ -6,15 +6,24 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          <th>Id</th>
           <th>Client Name</th>
           <th></th>
+                    
         </tr>
       </thead>
       <tbody>
         <% @clients.each do |client| %>
           <tr>
+            <td><%= client.id %></td>
             <td><%= client.name %></td>
-            <td><%= link_to '<i class="fa fa-pencil"></i> Edit'.html_safe,  edit_client_path(client) , class: "btn btn-default"%></td>
+            
+            <td><i class="fa fa-pencil"></i> <%= link_to 'Edit',  edit_client_path(client) %></td>
+
+            <!--
+        <td><%= link_to 'Show', client %></td>
+        <td><%= link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+            
           </tr>
         <% end %>
       </tbody>

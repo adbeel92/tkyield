@@ -1,2 +1,1 @@
-var id = '<%= @timesheetId.nil? ? "#timesheet_edit_task" : "#timesheet_edit_task_#{@timesheetId}" %>';
-$(id).html("<%= escape_javascript( options_from_collection_for_select(@tasks, 'id', 'name') ) %>");
+$('#timesheet_task_id').html("<%= escape_javascript( options_from_collection_for_select(@tasks, 'id', 'name') ) %>");

@@ -1,21 +1,16 @@
 <h1 class="page-header">Create Password for Account</h1>
-<h3 class="form-confirm-heading"> You're almost done! Now create a password to securely access your account. </h3>
-  <% if resource.errors.any? %>
-    <div id="error_explanation">
-      <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><%= pluralize(resource.errors.count, "error") %> prohibited this user from confirming the new password:</h4>
-        <ul>
-          <% resource.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
-  <% end %>
-<%= form_for(resource, :as => resource_name, :url => confirm_path, html: {class: "form-confirm"}) do |f| %>
-  <%= f.password_field :password, autocomplete: "off", autofocus: true, class: "form-control", placeholder: "Password" %>
-  <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm password"%>
+
+<h2> You're almost done! Now create a password to securely access your account. </h2>
+<%= form_for(resource, :as => resource_name, :url => confirm_path) do |f| %>
+  <%= devise_error_messages! %>
+  <div class="input-group">
+    <span class="input-group-addon">Password</span>
+    <%= f.password_field :password, autofocus: true, class: "form-control" %>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Confirm Password</span>
+    <%= f.password_field :password_confirmation, autofocus: true, class: "form-control" %>
+  </div>
   <div>
   	<%= f.hidden_field :confirmation_token, :value => @original_token %>
   </div>

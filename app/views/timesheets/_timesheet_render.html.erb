@@ -1,15 +1,7 @@
 <div class="tab-content">
-	<% timesheets_per_date.each do |timesheets| %>
-		<div role="tabpanel" class="tab-pane <%= 'active' if date_format_on_view(timesheets[:day]) == date_format_on_view(day_selected)%>" id="date-<%= date_format_on_view(timesheets[:day]) %>">
-			<% if timesheets[:timesheets].count > 0 %>
-				<%= render "timesheets", day: timesheets[:day], timesheets: timesheets[:timesheets], tasks: tasks %>
-			<% else %>
-				<div class="panel panel-default">
-				  <div class="panel-body" id="no_time_entry">
-				    <div class="text-center"><h3>No time entry recorded</h3></div>
-				  </div>
-				</div>
-			<% end %>
-		</div>
-	<% end %>
+  <% timesheets_per_date.each do |timesheets| %>
+    <div role="tabpanel" class="tab-pane <%= 'active' if date_format_on_view(timesheets[:day]) == date_format_on_view(@day_selected)%>" id="date-<%= date_format_on_view(timesheets[:day]) %>">
+      <%= render "timesheets", day: timesheets[:day], timesheets: timesheets[:timesheets] %>
+    </div>
+  <% end %>
 </div>

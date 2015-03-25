@@ -1,15 +1,15 @@
 class ClientsController < ApplicationController
-
   before_action :authenticate_user!
   load_and_authorize_resource
   before_action :set_client, only: [:show, :edit, :update, :destroy]
-  add_breadcrumb "Dashboard", :root_path
+  add_breadcrumb "Dashboard", :root_path 
   add_breadcrumb "Clients", :clients_path
 
   # GET /clients
   # GET /clients.json
   def index
-    @clients = Client.order("name ASC").all
+    @clients = Client.all
+  
   end
 
   # GET /clients/1
@@ -34,11 +34,11 @@ class ClientsController < ApplicationController
 
     respond_to do |format|
       if @client.save
-        format.html { redirect_to clients_path, notice: 'Client was successfully created.' }
+        format.html { redirect_to @client, notice: 'Client was successfully created.' }
         format.json { render :show, status: :created, location: @client }
       else
         format.html { render :new }
-        format.json { render json: clients_path.errors, status: :unprocessable_entity }
+        format.json { render json: @client.errors, status: :unprocessable_entity }
       end
     end
   end
