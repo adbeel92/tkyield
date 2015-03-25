@@ -1,3 +1,3 @@
 $('#timesheet_modal_<%= @timesheet.id %>').modal('hide');
-$('#date-<%= date_format_on_view(@day_selected) %>').html('<%= escape_javascript(render(:partial => "timesheets", locals: {day: date_format_on_view(@day_selected), timesheets: @timesheets })).html_safe %>');
+$('#date-<%= date_format_on_view(@day_selected) %>').html('<%= escape_javascript(render(:partial => "timesheets", locals: {day: date_format_on_view(@day_selected), timesheets: @timesheets, tasks: @tasks })).html_safe %>');
 $('#label_total_per_week').html('<%=  get_seconds_in_hours_minutes(current_user.total_time_per_week @day_selected) %>');

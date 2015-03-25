@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title"><strong>Task name:</strong></h3>
@@ -8,7 +7,5 @@
         <%= @task.name %>
     </div>
 </div>
-
-
-<%= link_to 'Edit', edit_task_path(@task) , class: "btn btn-primary"%> 
+<%= link_to 'Edit', edit_task_path(@task) , class: "btn btn-primary"%>
 <%= link_to 'Back', tasks_path , class: "btn btn-primary"%>

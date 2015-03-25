@@ -1,7 +1,4 @@
-<%= nested_form_for @user do |f| %>
-	
-	
-
+<%= nested_form_for user do |f| %>
 	<div class="field">
 		<div class="input-group">
 		  <span class="input-group-addon">First Name</span>
@@ -28,9 +25,32 @@
 
 	<div class="input-group">
 		<span class="input-group-addon">Role</span>
-		<%= f.select :role_id, Role.all.collect{ |t| [t.name, t.id]}, {:prompt => "Select a Role" } , class: "form-control" %>
+		<%= f.select :role_id, Role.all.collect{ |t| [t.name, t.id]}, {:prompt => "- Select a Role -" } , class: "form-control" %>
 	</div>
 	<br>
+
+	<div class="input-group">
+		<span class="input-group-addon">Team</span>
+		<%= f.select :team_id, Team.all.collect{ |t| [t.name, t.id]}, {:prompt => "- Select a Team -" } , class: "form-control" %>
+	</div>
+	<br>
+
+	<div class="field">
+		<div class="input-group">
+		  <span class="input-group-addon">QR Code</span>
+		  <%= f.text_field :qr_code, class: "form-control" %>
+		</div>
+		<br>
+	</div>
+
+	<div class="field">
+		<div class="input-group">
+		  <span class="input-group-addon">Pin Code</span>
+		  <%= f.text_field :pin_code, class: "form-control" %>
+		</div>
+		<br>
+	</div>
+
 
 	<div class="actions">
 		<%= f.submit class: "btn btn-lg btn-warning" %>

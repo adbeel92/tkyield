@@ -1,48 +1,94 @@
 <div class="row">
-  <div class="col-lg-6">
-    <%= render "timesheet_day" %>
-  </div>
-  <div class="col-lg-6">
-    <div class="row" id="week_dates">
-      <div class="btn-toolbar to-the-right" role="toolbar">
-        <div class="btn-group"> 
-          <%= link_to "Today" , '#', :data => {:date => @today},:id => "today_date", :class => 'change_date btn btn-lg btn-primary' %> 
-        </div>
-      </div>
+	<div class="col-lg-6">
+		<%= render "timesheet_day", day_selected: @day_selected %>
+	</div>
+	<div class="col-lg-6">
+		<div class="row" id="week_dates">
+			<div class="btn-toolbar to-the-right" role="toolbar">
+				<div class="btn-group">
+					<%= link_to "Today" , '#', :data => {:date => @today},:id => "today_date", :class => 'change_date btn btn-lg btn-primary' %>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
-  </div>
-</div><br>
+<br>
 <div class="row">
-  <div class="col-lg-1">
-    <!-- Button trigger modal -->
-    <button id="create-timer" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#timeshee-new-modal"> + </button>
-    <h6>New Entry</h6>
-  </div>
-  <div class="col-lg-11">
-      <div id="timesheet_container">
-        <div id="timesheet_nav_container">
-          <%= render "timesheet_navigation", days_of_week: @days_of_week %>
-        </div>
-        <!-- Tab panes -->
-        <div id="timesheets_content">
-          <%= render "timesheet_render", timesheets_per_date: @timesheets_per_date %>
-        </div>
-      </div>
-
-  </div>
+	<div class="col-lg-1">
+		<!-- Button trigger modal -->
+		<button id="create-timer" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#timeshee-new-modal"> + </button>
+		<h6>New Entry</h6>
+	</div>
+	<div class="col-lg-11">
+		<div id="timesheet_container">
+			<div id="timesheet_nav_container">
+				<%= render "timesheet_navigation", days_of_week: @days_of_week, day_selected: @day_selected %>
+			</div>
+			<!-- Tab panes -->
+			<div id="timesheets_content">
+				<%= render "timesheet_render", timesheets_per_date: @timesheets_per_date, day_selected: @day_selected, tasks: @tasks %>
+			</div>
+		</div>
+	</div>
 </div>
 
-<%= render "new_modal" %>
-<script type="text/javascript">
+<%= render 'new_modal', tasks: @tasks, day_selected: @day_selected %>
 
-  $( document ).on("click",".change_date", function(){
-    var dateForParam = $(this).data('date');
-    $.ajax({
-      type:'GET', 
-      url: "<%=timesheets_path%>",
-      data: { date : dateForParam },
-      dataType: "script"
-   });
-  })
+<script type="text/javascript">
+var tasks_hash = <%= @tasks_hash.to_json.html_safe %>
+	
+	$( document ).on("click",".edit-timer", function(){
+		var timesheetid = $(this).data("timesheet-id");
+		var time = $("#timesheet_timer_" + timesheetid).countdown('getTimes');
+		var hours = time[4];
+		var minutes = time[5] < 10 ? "0" + time[5] : time[5];
+		$("#edit_timesheet_total_time_" + timesheetid).val(hours + ":" + minutes);
+	})
+
+	$( document ).on("click",".change_date", function(){
+		var dateForParam = $(this).data('date');
+		$.ajax({
+			type:'GET',
+			url: "<%= timesheets_path %>",
+			data: { date : dateForParam },
+			dataType: "script"
+		});
+	})
+
+	$( document ).on("change","#timesheet_project_id", function(){
+		var project_id = $('#timesheet_project_id').val();
+		var tasks = tasks_hash[project_id];
+		$("#timesheet_edit_task").html("<option value=''>- Select a task -</option>");
+		$.each(tasks, function( index, value ) {
+		  $("#timesheet_edit_task").append('<option value=' + value["id"] + '>' + value["name"] + '</option>');
+		});		
+		/*$.ajax({
+			type:'GET',
+			url: "<%= tasks_projects_path %>",
+			data: {
+				id : $('#timesheet_project_id').val()
+			},
+			dataType: "script"
+		}); */
+	})
+
+	$( document ).on("change",".project_edit_timesheet", function(){
+		var timesheetId = $(this).data("timesheetid");
+		var project_id =  $("#project_edit_timesheet_".concat(timesheetId)).val();
+		var tasks = tasks_hash[project_id];
+
+		$("#timesheet_edit_task_".concat(timesheetId)).html("<option value=''>- Select a task -</option>");
+		$.each(tasks, function( index, value ) {
+		  $("#timesheet_edit_task_".concat(timesheetId)).append('<option value=' + value["id"] + '>' + value["name"] + '</option>');
+		});
+		/*$.ajax({
+			type:'GET',
+			url: "<%= tasks_projects_path %>",
+			data: {
+				id : $("#project_edit_timesheet_".concat(timesheetId)).val(),
+				timesheetId : timesheetId
+			},
+			dataType: "script"
+		});*/
+	})
 </script>

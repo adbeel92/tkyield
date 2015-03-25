@@ -1,94 +1,106 @@
 <h1 class="page-header"> User <small> Assign Projects</small> </h1>
-
 <%= nested_form_for @user, url: update_user_project_user_path(@user) do |f| %>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-		  <h2 class="panel-title">Projects for <%= @user.full_name %></h3>
-
+			<h2 class="panel-title">Projects for <%= @user.full_name %></h3>
 		</div>
 		<div class="panel-body">
-		  <%= f.fields_for :user_projects do |project| %>
-		      <div class="nested-select row">
-		          <div class="col-sm-10">
-			          <%= project.select :project_id, Project.all.collect{ |u| [u.name, u.id]}, {:prompt => "Select a project"} , class: "form-control select-project" %>
-			          </div><div class="col-sm-2">
-			          <%= project.link_to_remove "X", class: "btn btn-danger"%>
-		          </div>
-		      </div>
-		  <% end %>
-
-		  <%= f.link_to_add "Add a project", :user_projects , id: "add_project", class: "btn btn-xs btn-default"%>
+			<%= f.fields_for :user_projects do |project| %>
+				<div class="nested-select row">
+					<div class="col-sm-10">
+						<%= project.select :project_id, grouped_options_for_select(@grouped_options, project.object.project_id),{:prompt => "- Select a project -"}, :class => "form-control select-project"%>
+					</div>
+					<div class="col-sm-2">
+						<%= project.link_to_remove "X", class: "btn btn-danger"%>
+					</div>
+				</div>
+			<% end %>
+			<%= f.link_to_add "Add a project", :user_projects , id: "add_project", class: "btn btn-xs btn-default"%>
 		</div>
- 	</div>
-
+	</div>
 	<div class="actions">
 		<%= f.submit 'Save', class: "btn btn-lg btn-warning" %>
 	</div>
 <% end %>
 
 <script type="text/javascript">
-    $( document ).on( "change", ".select-project", function() {
-      var ultimo;
-      $(".select-project").each(function() {
-        if ( $(this).is(":visible"))
-          ultimo = $( this );
-      });
-      if ($(this).is(ultimo)){
-        $( "#add_project").click();
-      }
-      validateUnique('.select-project');
-    });
+	$( document ).ready(function() {
+		validateUnique('.select-project');
+	});
 
-   
-    $(document).on('nested:fieldAdded', function() {
-      validateUnique('.select-project');
-    });
+	$( document ).on( "change", ".select-project", function() {
+		var ultimo;
+		$(".select-project").each(function() {
+			if ( $(this).is(":visible"))
+				ultimo = $( this );
+		});
+		if ($(this).is(ultimo)){
+			if ( anyOptions(".select-project") )
+				$( "#add_project").click();
+			else
+				$( "#add_project").hide();
+		}
+		validateUnique('.select-project');
+	});
 
-    $(document).on('nested:fieldRemoved', function() {
-      validateUnique('.select-project');
-    });  
+	$(document).on('.fieldAdded', function() {
+		validateUnique('.select-project');
+	});
 
-    function validateUnique(klass){
-      var arraySelect = new Array();
-      $(klass).each(function() {
-        if ($(this).is(':visible')){
-          arraySelect.push($(this).val());
-        }     
-      });
+	$(document).on('.fieldRemoved', function() {
+		validateUnique('.select-project');
+	});
 
-      $(klass).each(function() {
-        if ($(this).is(':visible')){
-          $(this).children('option').each(function() {
-            $(this).removeAttr('disabled');
-          });
-        }
-      });
+		function anyOptions(klass){
 
-      $(klass).each(function() {
+			var cantSelect = 0;
+			$(klass).each(function() {
+				if ($(this).is(':visible')){
+					cantSelect++;
+				}     
+			});
+			var cantOption = <%= Project.all.count %>;
+			return cantOption != cantSelect;
+		}
 
-        if ($(this).is(':visible')){
+		function validateUnique(klass){
 
-          var comboSelectedValue = $(this).val();
+			var arraySelect = new Array();
+			$(klass).each(function() {
+				if ($(this).is(':visible')){
+					arraySelect.push($(this).val());
+				}     
+			});
+			$(klass).each(function() {
+				if ($(this).is(':visible')){
+					$(this).children('option').each(function() {
+						$(this).removeAttr('disabled');
+					});
+				}
+			});
+			$(klass).each(function() {
 
-          $(this).children('option').each(function() {
-            var disableMe = false;
-            var thisVal = $(this).val();
-            
-            for(var i=0, len=arraySelect.length; i<len;i++){
-              if (disableMe==false){
-                if (thisVal != comboSelectedValue){
-                  if ( thisVal === arraySelect[i] ){
-                    disableMe = true;
-                  }
-                }
-              }
-            }
+				if ($(this).is(':visible')){
 
-            if (disableMe){
-              $(this).attr('disabled', true);
-            }
-          });
-        }
-      });
-    }
+					var comboSelectedValue = $(this).val();
+					$(this).find('option').each(function() {
+						var disableMe = false;
+						var thisVal = $(this).val();
+						for(var i=0, len=arraySelect.length; i<len;i++){
+							if (disableMe==false){
+								if (thisVal != comboSelectedValue){
+									if ( thisVal === arraySelect[i] ){
+										disableMe = true;
+									}
+								}
+							}
+						}
+						if (disableMe){
+							$(this).attr('disabled', true);
+						}
+					});
+				}
+			});
+		}
+
 </script>

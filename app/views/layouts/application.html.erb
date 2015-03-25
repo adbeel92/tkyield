@@ -1,42 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Tkyield</title>
-  <%= stylesheet_link_tag    "application", media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
-  <%= favicon_link_tag 'favicon.ico' %>
+	<head>
+		<title>Tkyield</title>
+		<%= stylesheet_link_tag    "application", media: 'all', 'data-turbolinks-track' => true %>
+		<%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+		<%= favicon_link_tag 'favicon.ico' %>
 
-  <%= csrf_meta_tags %>
-  
-</head>
-<body>
-  <%if user_signed_in? %>
-	<div id="wrapper">
-      <%= render "layouts/navbar" %>
-    	<div id="page-wrapper">
-        <ol class="breadcrumb">
-          <%= render_breadcrumbs :tag => :li, :separator => "" %>
-        </ol>
-      <%= render "layouts/messages" %>
-      <div class="container-fluid"> 
-  	    <%= yield %>
-  	  </div>
-    </div>
-	</div>
-  <% else %>
-    <div id="not_logged">
-      <%= render "layouts/navbar" %>
-      <div>
-        <%= render "layouts/messages" %>
-      <div class="container-fluid"> 
-        <%= yield %>
-      </div>
-    </div>
-  </div>
+		<%= csrf_meta_tags %>
 
-  <% end %>
-	
-
-
-</body>
+	</head>
+	<body>
+		<% if user_signed_in? %>
+			<div id="wrapper">
+				<%= render "layouts/navbar" %>
+				<div id="page-wrapper">
+					<ol class="breadcrumb">
+						<%= render_breadcrumbs :tag => :li, :separator => "" %>
+					</ol>
+					<%= render "layouts/messages" %>
+					<div class="container-fluid">
+						<%= yield %>
+					</div>
+				</div>
+			</div>
+		<% else %>
+			<div id="not_logged">
+				<%= render "layouts/navbar" %>
+				<div>
+					<%= render "layouts/messages" %>
+					<div class="container-fluid">
+						<%= yield %>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</body>
 </html>
