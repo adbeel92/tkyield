@@ -6,7 +6,7 @@ wb.add_worksheet(name: "StaffReport") do |sheet|
   if !@selected_team.blank? and @selected_collaborator.blank?
     sheet.add_row ["Team:", @selected_team.name]
   elsif !@selected_collaborator.blank?
-    sheet.add_row ["Team:", @selected_team.name]
+    sheet.add_row ["Team:", @selected_collaborator.team.name] unless @selected_collaborator.team.blank?
     sheet.add_row ["Collaborator:", @selected_collaborator.full_name]
   end
 

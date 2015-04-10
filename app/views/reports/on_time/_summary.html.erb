@@ -1,3 +1,7 @@
+<br>
+<div class="align-right">
+<%= link_to '<i class="fa fa-file-excel-o"></i>  Download as Excel'.html_safe, reports_on_time_index_path(format: "xlsx",:team => @selected_team, :collaborator => @selected_collaborator ,:beginning => date_format(@beginning), :end => date_format(@end)), class: "btn btn-success"%>
+</div>
 <table class="table table-striped table-responsive">
   <thead>
       <tr>

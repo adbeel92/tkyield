@@ -1,0 +1,28 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "StaffReport") do |sheet|
+  
+  sheet.add_row [" Report:","Daily Activities Report"]
+
+  if !@selected_team.blank? and @selected_collaborator.blank?
+    sheet.add_row ["Team:", @selected_team.name]
+  elsif !@selected_collaborator.blank?
+    sheet.add_row ["Team:", @selected_collaborator.team.name] unless @selected_collaborator.team.blank?
+    sheet.add_row ["Collaborator:", @selected_collaborator.full_name]
+  end
+
+  sheet.add_row ["From:", @beginning, "to", @end] 
+  sheet.add_row [""] 
+  
+  sheet.add_row ["Date","Name","In/Out","Time","Total(hrs)"] ## Header values of Excel
+
+  @recent.each do |time_station|
+    row = [date_format(time_station.created_at),time_station.user.full_name]
+    if time_station.parent_id.nil?
+      row.concat(["IN", time_format(time_station.created_at)])
+    else
+      row.concat(["OUT", time_format(time_station.created_at),total_time_excel_format(time_station.total_time)])
+    end
+    sheet.add_row row
+  end
+
+end

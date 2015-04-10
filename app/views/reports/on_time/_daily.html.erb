@@ -1,6 +1,11 @@
+<br>
+<div class="align-right">
+<%= link_to '<i class="fa fa-file-excel-o"></i>  Download as Excel'.html_safe, daily_excel_reports_on_time_index_path(format: "xlsx",:team => @selected_team, :collaborator => @selected_collaborator ,:beginning => date_format(@beginning), :end => date_format(@end)), class: "btn btn-success"%>
+</div>
 <table class="table table-striped table-responsive" style="overflow: auto;">
   <thead>
     <tr>
+      <th>Date</th>
       <th>Name</th>
       <th>In/Out</th>
       <th>Time</th>      
@@ -10,6 +15,7 @@
   <tbody>
     <% @recent.each do |time_station| %>
       <tr>
+        <td><%= date_format(time_station.created_at) %>
         <td><%= time_station.user.full_name %>
         <td> 
         <% if time_station.parent_id.nil? %>
@@ -20,16 +26,12 @@
         </td>
         <td>
         <% if time_station.parent_id.nil? %>
-         <%= datetime_format(time_station.created_at) %>
+         <%= time_format(time_station.created_at) %>
         <% else %>
-         <%= datetime_format(time_station.created_at) %>
+         <%= time_format(time_station.created_at) %>
         <% end %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<div class="text-center">
-  <%= will_paginate @recent,:previous_label => '<<', :next_label => '>>' %>  
-</div>

@@ -7,7 +7,7 @@ module Reports
     def index
       add_breadcrumb "On Time Report", :reports_on_time_index_path
       @filtered_users = current_account.users.order("first_name, last_name")
-      @recent = TimeStation.where(created_at: @beginning..@end).includes(:user).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
+      @recent = TimeStation.where(created_at: @beginning.at_beginning_of_day..@end.at_end_of_day).includes(:user).order("created_at DESC")
       if !params[:team].blank? and params[:collaborator].blank?
         @filtered_users = User.where(team_id: @selected_team)
         @recent = @recent.where(user: @filtered_users)
@@ -20,6 +20,39 @@ module Reports
       respond_to do |format|
         format.html
         format.xlsx
+      end
+    end
+
+    def daily_excel
+      @filtered_users = current_account.users.order("first_name, last_name")
+      @recent = TimeStation.where(created_at: @beginning.at_beginning_of_day..@end.at_end_of_day).includes(:user).order("created_at DESC")
+      if !params[:team].blank? and params[:collaborator].blank?
+        @filtered_users = User.where(team_id: @selected_team)
+        @recent = @recent.where(user: @filtered_users)
+      elsif !params[:collaborator].blank?
+        @filtered_users = User.where(id: @selected_collaborator)
+        @recent = @recent.where(user: @selected_collaborator)
+      end      
+      # @filtered_users = current_account.users.order("first_name, last_name")
+      # @recent = TimeStation.select(:created_at,:parent_id).where(created_at: @beginning.at_beginning_of_day..@end.at_end_of_day).order("created_at DESC")
+
+      # if !params[:team].blank? and params[:collaborator].blank?
+      #   @filtered_users = User.where(team_id: @selected_team)
+      #   @recent = @recent.where(user: @filtered_users)
+      # elsif !params[:collaborator].blank?
+      #   @filtered_users = User.where(id: @selected_collaborator)
+      #   @recent = @recent.where(user: @selected_collaborator)
+      # end
+      # @in_times = []
+      # @recent.where(parent_id: nil).each do |rec|
+      #   @in_times << rec.created_at
+      # end 
+      # @out_times = [] 
+      # @recent.where.not(parent_id: nil).each do |rec|
+      #   @out_times << rec.created_at
+      # end     
+      respond_to do |format|
+        format.xlsx {response.headers['Content-Disposition'] = "attachment; filename='Daily summary #{@beginning}.xlsx'"}
       end
     end
 
