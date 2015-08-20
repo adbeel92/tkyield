@@ -11,12 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150310193957) do
+ActiveRecord::Schema.define(version: 20150820133554) do
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "subdomain",     limit: 255, default: "", null: false
+    t.string   "company_name",  limit: 255, default: "", null: false
+    t.string   "company_url",   limit: 255, default: ""
+    t.string   "company_phone", limit: 255, default: ""
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.index ["subdomain"], :name => "index_accounts_on_subdomain", :unique => true
+  end
 
   create_table "clients", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "account_id", limit: 4
+    t.index ["account_id"], :name => "fk__clients_account_id"
+    t.foreign_key ["account_id"], "accounts", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_clients_account_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -25,7 +38,12 @@ ActiveRecord::Schema.define(version: 20150310193957) do
     t.string   "description", limit: 255
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.datetime "deleted_at"
+    t.integer  "account_id",  limit: 4
+    t.index ["account_id"], :name => "fk__projects_account_id"
     t.index ["client_id"], :name => "fk__projects_client_id"
+    t.index ["deleted_at"], :name => "index_projects_on_deleted_at"
+    t.foreign_key ["account_id"], "accounts", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_projects_account_id"
     t.foreign_key ["client_id"], "clients", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_projects_client_id"
   end
 
@@ -39,6 +57,11 @@ ActiveRecord::Schema.define(version: 20150310193957) do
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.datetime "deleted_at"
+    t.integer  "account_id", limit: 4
+    t.index ["account_id"], :name => "fk__tasks_account_id"
+    t.index ["deleted_at"], :name => "index_tasks_on_deleted_at"
+    t.foreign_key ["account_id"], "accounts", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_tasks_account_id"
   end
 
   create_table "task_projects", force: :cascade do |t|
@@ -58,7 +81,10 @@ ActiveRecord::Schema.define(version: 20150310193957) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.datetime "deleted_at"
+    t.integer  "account_id", limit: 4
+    t.index ["account_id"], :name => "fk__teams_account_id"
     t.index ["deleted_at"], :name => "index_teams_on_deleted_at"
+    t.foreign_key ["account_id"], "accounts", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_teams_account_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -83,11 +109,19 @@ ActiveRecord::Schema.define(version: 20150310193957) do
     t.string   "qr_code",                limit: 255
     t.integer  "pin_code",               limit: 4
     t.integer  "team_id",                limit: 4
+    t.string   "avatar_file_name",       limit: 255
+    t.string   "avatar_content_type",    limit: 255
+    t.integer  "avatar_file_size",       limit: 4
+    t.datetime "avatar_updated_at"
+    t.integer  "account_id",             limit: 4
+    t.string   "access_token",           limit: 255
+    t.datetime "archived_at"
+    t.index ["account_id"], :name => "fk__users_account_id"
     t.index ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
-    t.index ["email"], :name => "index_users_on_email", :unique => true
     t.index ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
     t.index ["role_id"], :name => "fk__users_role_id"
     t.index ["team_id"], :name => "fk__users_team_id"
+    t.foreign_key ["account_id"], "accounts", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_users_account_id"
     t.foreign_key ["role_id"], "roles", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_users_role_id"
     t.foreign_key ["team_id"], "teams", ["id"], :on_update => :restrict, :on_delete => :restrict, :name => "fk_users_team_id"
   end

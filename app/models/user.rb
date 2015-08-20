@@ -35,7 +35,9 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, 
           :trackable, :confirmable, authentication_keys: [ :email, :account_id ]
-  
+  scope :active, -> {where(archived_at: nil)}
+  scope :archived, -> {where.not(archived_at: nil)}
+  scope :without_team, -> {where(team_id: nil)}
   belongs_to :account
   belongs_to :role
   belongs_to :team
@@ -134,6 +136,14 @@ class User < ActiveRecord::Base
       end
     rescue
       return nil, nil, nil
+    end
+  end
+
+  def archive!
+    if self.archived_at.nil?
+      self.update_attributes(archived_at: Time.zone.now)
+    else 
+      self.update_attributes(archived_at: nil)
     end
   end
 

@@ -1,28 +1,6 @@
 <%= link_to 'New User', new_user_path , class: "btn btn-lg btn-warning align-right" %>
 <h1 class="page-header"> Collaborators <small> Listing</small> </h1>
-<table class="table table-responsive">
-	<% @teams.each do |team| %>
-		<thead class="thead">
-			<tr>
-				<th colspan="6"><%= team.name %></th>
-			</tr>
-		</thead>
-		<tbody>
-			<% team.users.includes(:role).order("first_name, last_name").each do |user| %>
-				<%= render "user", user: user %>
-			<% end %>
-		</tbody>
-	<% end %>
-	<% if !@users.nil? %>
-		<thead class="thead">
-			<tr>
-				<th colspan="6" style="background-color: #333;  color: white;">Unnasigned Users</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @users.each do |user| %>
-				<%= render "user", user: user %>
-			<% end %>
-		</tbody>
-	<% end %>
-</table>
+
+<%= link_to "Archived Users",  archives_users_path %>
+
+<%= render "table", active: true %>

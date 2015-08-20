@@ -4,8 +4,8 @@ default: &default
   pool: 5
   timeout: 5000
   username: root
-  password: root
-  socket: /var/mysql/mysql.sock
+  password: 5660688
+  socket: /var/run/mysqld/mysqld.sock
 
 development:
   <<: *default

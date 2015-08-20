@@ -16,9 +16,11 @@ Rails.application.routes.draw do
   scope ':route' do
     get '/', to: "dashboard#index", as: "dashboard"
     resources :users, only: [:index, :new, :edit, :create, :update], path: "collaborators" do
+      get 'archives', to: 'users#archives', on: :collection
       get 'show_user_project', to: 'users#projects', on: :member
       patch 'update_user_project', to: 'users#update_projects', on: :member
       get 'resend_confirmation', to: 'users#resend_confirmation', on: :member
+      put 'archive', to: 'users#archive', on: :member
     end
     resources :tasks
     resources :clients

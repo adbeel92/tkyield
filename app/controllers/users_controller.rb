@@ -1,13 +1,23 @@
 class UsersController < DashboardController
   load_and_authorize_resource
-	add_breadcrumb "Dashboard", :dashboard_path
-	add_breadcrumb "Collaborators", :users_path
-  before_action :set_user, only: [:resend_confirmation]
+  add_breadcrumb "Dashboard", :dashboard_path
+  add_breadcrumb "Collaborators", :users_path
+  before_action :set_user, only: [:resend_confirmation, :archive_user]
 
-	def index
-   	@teams = current_account.teams.order("name")
-    @users = current_account.users.where(team_id: nil).includes(:role).order("first_name, last_name")
+  def index
+    @teams = current_account.teams.order("name")
+    @users_without_team = current_account.users.active.without_team.includes(:role).order("first_name, last_name")
   end
+
+  def archives
+    add_breadcrumb "Archives", :archives_users_path
+    @teams = current_account.teams.order("name")
+    @users_without_team = current_account.users.archived.without_team.includes(:role).order("first_name, last_name")
+  end
+
+  def archive
+    @success = @user.archive! ? true : false
+  end 
 
   def new
     @user = User.new
@@ -66,6 +76,7 @@ class UsersController < DashboardController
     redirect_to users_path, notice: "Email sent successfully"
   end
 
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_user
@@ -74,7 +85,7 @@ class UsersController < DashboardController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:avatar, :first_name, :last_name, :role_id, :team_id, :email)
+    params.require(:user).permit(:avatar, :first_name, :last_name, :role_id, :team_id, :email, :archived_at)
   end
 
   def user_project_params
