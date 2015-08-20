@@ -1,0 +1,6 @@
+<%= link_to 'New User', new_user_path , class: "btn btn-lg btn-warning align-right" %>
+<h1 class="page-header"> Collaborators <small> Listing</small> </h1>
+
+<%= link_to "Active Users",  users_path %>
+
+<%= render "table", active: false %>
