@@ -17,6 +17,10 @@ class UsersController < DashboardController
 
   def archive
     @success = @user.archive! ? true : false
+  end
+
+  def unarchive
+    @success = @user.unarchive! ? true : false
   end 
 
   def new

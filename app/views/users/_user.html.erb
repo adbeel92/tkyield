@@ -1,13 +1,18 @@
 <% icon = active ? "'fa fa-eye-slash'" : "'fa  fa-eye'" %>
 <% text =  active ? 'Archive' : 'Unarchive'%>
-<%# my_path = active ? user_path(user) : archive_user_path(user) %>
-<td># <%= user.pin %></td>
-<td><%= image_tag user.avatar.url(:thumb), class: "img-circle", width: "30", height:"30"%><strong>  <%= user.full_name %></strong></td>
-<td><small><small><small><small><small><small><%= user.archived_at || "archived_nil"  %></small></small></small></small></small></small></td><!-- BORRAR ESTA LINEA -->
-<td><%= user.role_name %></td>
+<td>
+	# <%= user.pin %>
+</td>
+<td>
+	<%= image_tag user.avatar.url(:thumb), class: "img-circle", width: "30", height:"30"%>
+	<strong>  <%= user.full_name %></strong>
+</td>
+<td>
+	<%= user.role_name %>
+</td>
 <td>
 	<a href="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=<%=user.qr_code%>&chld=M|0" target="blank">
-		<img src="https://chart.googleapis.com/chart?cht=qr&chs=50x50&chl=<%=user.qr_code%>&chld=M|0"></img>      
+		<img src="https://chart.googleapis.com/chart?cht=qr&chs=50x50&chl=<%=user.qr_code%>&chld=M|0"></img>
 	</a>
 </td>
 <td>
@@ -16,5 +21,9 @@
 		<%= link_to '<i class="fa fa-folder-open-o"></i> Assign Projects'.html_safe, show_user_project_user_path(user), class: "btn btn-default" %>
 		<%= link_to '<i class="fa  fa-reply-all"></i> Resend Confirmation'.html_safe, resend_confirmation_user_path(user), class: "btn btn-default" %> 		
 	<% end %>
-	<%= link_to "<i class=#{icon}></i> #{text}".html_safe, archive_user_path(user), class: "btn btn-default", remote: true, method: "put", data: { confirm: "Are you sure to #{text}: #{user.full_name}?" } %> 
+	<%= link_to "<i class=#{icon}></i> #{text}".html_safe, active ? archive_user_path(user) : unarchive_user_path(user), class: "btn btn-default", remote: true, method: "put", data: { confirm: "You are about to #{text} : #{user.full_name}, this action involves:
+			  Automatic Check-out
+			  Stop all the activities on Timesheets
+			  The user will not be able to log in
+			  Are you sure?" } %> 
 </td>

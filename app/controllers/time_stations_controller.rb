@@ -7,7 +7,9 @@ class TimeStationsController < DashboardController
   # GET /time_stations.json
   def index
     @current_user = current_user
-    @in_times = TimeStation.where(user_id: @current_user.id, parent_id: nil).includes(:children).order("created_at DESC").paginate(:page => params[:page], :per_page => 10)
+    if @current_user
+      @in_times = TimeStation.where(user_id: @current_user.id, parent_id: nil).includes(:children).order("created_at DESC").paginate(:page => params[:page], :per_page => 10)
+    end
   end
 
   # GET /time_stations/1
@@ -30,15 +32,11 @@ class TimeStationsController < DashboardController
   
   def create
     @user = current_account.users.find_by_pin_code(params[:pin_code])
-    @last_time_station = TimeStation.where(user: @user).last
-    @is_in = true
-    if @user
-      if @last_time_station.nil? or !@last_time_station.parent_id.nil?
-        TimeStation.create(user_id: @user.id)
-      elsif @last_time_station.parent_id.nil? 
-        TimeStation.create(user_id: @user.id, parent_id: @last_time_station.id, total_time: Time.zone.now - @last_time_station.created_at )
-        @is_in = false
-      end
+    @success = true
+    if @user and !@user.archived?
+      @in_time, @out_time, @total_time = @user.check_in_or_out
+    else
+      @success = false
     end
   end
 

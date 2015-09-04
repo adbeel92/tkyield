@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       patch 'update_user_project', to: 'users#update_projects', on: :member
       get 'resend_confirmation', to: 'users#resend_confirmation', on: :member
       put 'archive', to: 'users#archive', on: :member
+      put 'unarchive', to: 'users#unarchive', on: :member
     end
     resources :tasks
     resources :clients

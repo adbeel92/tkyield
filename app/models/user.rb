@@ -119,6 +119,10 @@ class User < ActiveRecord::Base
     sprintf '%04d', pin_code
   end
 
+  def archived?
+    !archived_at.nil?
+  end
+
   def last_check_in_or_out_activity
     TimeStation.where(user: self).last
   end
@@ -142,7 +146,17 @@ class User < ActiveRecord::Base
   def archive!
     if self.archived_at.nil?
       self.update_attributes(archived_at: Time.zone.now)
+      self.cancel_active_timesheet
+      self.check_out
     else 
+      false
+    end
+  end
+
+  def unarchive!
+    if self.archived_at.nil?
+      false
+    else
       self.update_attributes(archived_at: nil)
     end
   end

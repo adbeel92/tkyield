@@ -1,32 +1,36 @@
 <table class="table table-responsive">
 	<% @teams.each do |team| %>
-		<thead class="thead">
-			<tr>
-				<th colspan="6"><%= team.name %></th>
-			</tr>
-		</thead>
-		<tbody>
-			<% filtered_team = active ? team.users.active : team.users.archived %>
-			<% filtered_team.includes(:role).order("first_name, last_name").each do |user| %>
-				<tr id="collaborator-<%= user.id %>">
-					<%= render "user", user: user , active: active %>
+		<% filtered_users = active ? team.users.active : team.users.archived %>
+		<% unless filtered_users.empty? %>
+			<thead class="thead">
+				<tr>
+					<th colspan="6"><%= team.name %></th>
 				</tr>
-			<% end %>
-		</tbody>
+			</thead>
+			<tbody>
+				<% filtered_users.includes(:role).order("first_name, last_name").each do |user| %>
+					<tr id="collaborator-<%= user.id %>">
+						<%= render "user", user: user , active: active %>
+					</tr>
+				<% end %>
+			</tbody>
+		<% end %>
 	<% end %>
 	<% unless @users_without_team.nil? %>
-		<thead class="thead">
-			<tr>
-				<th colspan="6" style="background-color: #333;  color: white;">Unnasigned Users</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% filtered_users_without_team = active ? @users_without_team.active : @users_without_team.archived;%>
-			<% filtered_users_without_team.each do |user| %>
-				<tr id="collaborator-<%= user.id %>">
-					<%= render "user", user: user , active: active%>
+		<% filtered_users_without_team = active ? @users_without_team.active : @users_without_team.archived;%>
+		<% unless filtered_users_without_team.empty? %>
+			<thead class="thead">
+				<tr>
+					<th colspan="6" style="background-color: #333;  color: white;">Unnasigned Users</th>
 				</tr>
-			<% end %>
-		</tbody>
+			</thead>
+			<tbody>
+				<% filtered_users_without_team.each do |user| %>
+					<tr id="collaborator-<%= user.id %>">
+						<%= render "user", user: user , active: active %>
+					</tr>
+				<% end %>
+			</tbody>
+		<% end %>
 	<% end %>
 </table>

@@ -1,6 +1,8 @@
 <%= link_to 'New User', new_user_path , class: "btn btn-lg btn-warning align-right" %>
-<h1 class="page-header"> Collaborators <small> Listing</small> </h1>
-
-<%= link_to "Archived Users",  archives_users_path %>
+<h1 class="page-header"> 
+	Collaborators 
+	<small>Active / </small>
+	<small><%= link_to "Archived",  archives_users_path %></small>
+</h1>
 
 <%= render "table", active: true %>
