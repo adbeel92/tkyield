@@ -102,7 +102,7 @@ class User < ActiveRecord::Base
   end
 
   def self.between_dates beginning, ending
-    self.between_dates_and_team_and_projects(beginning, ending, nil)
+    self.between_dates_and_team_and_projects(beginning, ending, nil, nil)
   end
 
   def self.filter(team, collaborator)

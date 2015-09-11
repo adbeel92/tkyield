@@ -21,7 +21,7 @@ class Client < ActiveRecord::Base
   end
 
   def self.between_dates beginning, ending
-  	self.select("clients.*, SUM( timesheets.total_time ) AS total").joins(projects: :timesheets).where("timesheets.belongs_to_day BETWEEN ? AND ?", beginning, ending).group("projects.id")
+  	self.select("clients.*, SUM( timesheets.total_time ) AS total").joins(projects: :timesheets).where("timesheets.belongs_to_day BETWEEN ? AND ?", beginning, ending).group("projects.client_id")
   end
 
   def total_time

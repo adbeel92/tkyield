@@ -36,8 +36,9 @@ Rails.application.routes.draw do
     end
     resources :time_stations
     namespace :reports do
-      get 'dash', to: 'reports#dash'
       get 'list', to: 'reports#index'
+      get 'dash', to: 'reports#dash'
+      get 'tables', to: 'reports#tables'
       get 'clients_excel', to: 'reports#clients_excel'
       get 'projects_excel', to: 'reports#projects_excel'
       get 'collaborators_excel', to: 'reports#collaborators_excel'

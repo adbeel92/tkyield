@@ -12,9 +12,19 @@ module Reports
       add_breadcrumb "Reports", :reports_list_path
       add_breadcrumb "Timesheet Report", :reports_dash_path
       @clients = current_account.clients.between_dates(@beginning, @end).order("name")
+      
       @projects = current_account.projects.between_dates(@beginning, @end).includes(:client).order("name")
       @users = current_account.users.between_dates_and_team(@beginning, @end, @selected_team).order("first_name, last_name")
       @teams = current_account.teams.order("name")
+    end
+
+    def tables
+      @to_report = [["Clients",1], ["Projects",2], ["Teams",3], ["Collaborators",4]]
+      @report_type = [["xDay",1],["xCollaborator",2],["xProject",3],["CsxD",4],["TsxD",5],["PsxD",6]]
+      @clients = current_account.clients.select(:id, :name).order("name ASC")
+      @projects = current_account.projects.includes(:client).order("name")
+      @users = current_account.users.select(:id, :first_name, :last_name).order("first_name, last_name")
+      @teams = current_account.teams.select(:id, :name).order("name")
     end
 
     def clients_excel

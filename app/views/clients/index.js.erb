@@ -1,0 +1,3 @@
+if("<%= params[:scope] %>" == "reports"){
+	$("#report-table-2").html("<%= escape_javascript(render(partial: 'reports/reports/tables_second_select', locals: { options: @clients })) %>");
+}

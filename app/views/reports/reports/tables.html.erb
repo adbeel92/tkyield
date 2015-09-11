@@ -1,0 +1,62 @@
+<h1 class="page-header"> Reports <small> by</small> </h1>
+
+<div class="row">
+    <div class="col-lg-4">
+        <%= select_tag :report, options_for_select(@to_report), prompt: "- Report -", class:"form-control", id: "report-table-select-1" %>
+    </div>
+    <div class="col-lg-4">
+    	<%= select_tag :option, nil, prompt: "- Select an option -", class:"form-control", id: "report-table-select-2" %>    
+    </div>
+    <div class="col-lg-4">
+    	<%= select_tag :option, nil, prompt: "- Select a type of report -", class:"form-control", id:"report-table-select-3" %>	
+    </div>
+</div>
+
+<script type="text/javascript">
+	var clients_hash = <%= @clients.to_json.html_safe %>;
+	var projects_hash = <%= @projects.to_json.html_safe %>;
+	var teams_hash = <%= @teams.to_json.html_safe %>;
+	var users_hash = <%= @users.to_json.html_safe %>;
+	var report_array = <%= @report_type.to_json.html_safe %>;
+
+	$("#report-table-select-1").change(function(){
+		var firstSelected = $(this).val();
+		switch (firstSelected){
+			case "1":
+				reloadSecondSelect(clients_hash, "All Clients", ["name"]);
+				break;
+			case "2":
+				reloadSecondSelect(projects_hash, "All Projects", ["name"]);
+				break;
+			case "3":
+				reloadSecondSelect(teams_hash, "All Teams", ["name"]);
+				break;
+			case "4":
+				reloadSecondSelect(users_hash, "All Collaborators", ["first_name", "last_name"]);
+				break;
+			default:
+				reloadSecondSelect([]);
+				break;
+		}
+	})
+	$("#report-table-select-2").change(function(){
+		var secondSelected = $(this).val();
+		var firstSelected = $("report-table-select-1").val();
+		reloadThirdSelect(report_array);
+		})
+
+
+	function reloadSecondSelect(objectsArray, target, names){
+		$("#report-table-select-2").html("<option value=''>- " + target + " -</option>");
+		$.each(objectsArray, function( index, value ) {
+		  $("#report-table-select-2").append('<option value=' + value["id"] + '>' + names.map(function(name){return value[name]}).join(' ') + '</option>');
+		});
+	}
+
+	function reloadThirdSelect(objectsArray){
+		$("#report-table-select-3").html("<option value=''>- Select a type of report -</option>");
+		$.each(objectsArray, function(index,value) {
+		  $("#report-table-select-3").append('<option value='+ index + '>' + value +'</option>');
+		});
+	}
+</script>
