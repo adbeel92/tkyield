@@ -13,16 +13,15 @@
     </thead>
     <tbody>
       <div id="event-row">
-        <% for j in 0..14 %>
+        <% for index_hours in 0..14 %>
           <tr>
             <td class="hour">
-              <% if (7+j) <= 12 %><%= 7+j %> AM
-              <% else %><%= 7+j-12 %> PM
+              <% if (7+index_hours) <= 12 %><%= 7+index_hours %> AM
+              <% else %><%= 7+index_hours-12 %> PM
               <% end%>
             </td>
-            <% for i in 1..6 %>
-              <td class="event">
-              </td>
+            <% for index_days in 1..6 %>
+              <td class="event"></td>
             <% end %>
           </tr>
         <% end %>
@@ -33,15 +32,15 @@
 
 
 <div class="data">
-  <% for j in 0..14 %>
-    <% for i in 1..6 %>
-      <div class="<%= "cell" + "-" + j.to_s + "-" +  i.to_s %>"> 
-        <% @schedule.events.each do |e| %>
-          <% if ((e.day_of_week.to_date.wday == i) && e.belongs_at_this_time(j) ) %>
+  <% for index_hours in 0..14 %>
+    <% for index_days in 1..6 %>
+      <div class="<%= "cell" + "-" + index_hours.to_s + "-" +  index_days.to_s %>"> 
+        <% @schedule.events.each do |current_event| %>
+          <% if ((current_event.day_of_week.to_date.wday == index_days) && current_event.belongs_at_this_time(index_hours) ) %>
             <li class="list-group-item">
               <div style="white-space:nowrap;">
-                <%= link_to "#", data: { toggle: "modal", "edit-event-path" => "#{schedule_event_path(@schedule, e)}", event: e }, id: "#{(7+j)}-#{i}", class:"edit-current-event" do %>
-                  <%= e.name %><br>
+                <%= link_to "#", data: { toggle: "modal", "edit-event-path" => "#{schedule_event_path(@schedule, current_event)}", event: current_event }, id: "#{(7+index_hours)}-#{index_days}", class:"edit-current-event" do %>
+                  <%= current_event.name %><br>
                 <% end %>
               </div>
             </li>
@@ -66,25 +65,24 @@
       $("#start_event").val(eventJSON["inTime"]);
       $("#finish_event").val(eventJSON["outTime"]);
       $("#day_event").val(eventJSON["day_of_week"]);
-      $("launch").val(eventJSON["launch"]);
+      $("#launch").val(eventJSON["launch"]);
       $("#detail-event").modal("show");
-      $(".edit-current-event").resizable();
     })    
-    var set_top = 267;
+    var set_top = 263;
     for ( j = 0; j < 15; j++ ){
-      var set_right = 310;
+      var set_right = 307;
       for ( i = 1; i < 7; i++ ){
         $(".cell"+ "-" + j.toString() + "-" + i.toString() ).css('position', 'absolute')
         $(".cell"+ "-" + j.toString() + "-" + i.toString() ).offset({top: set_top, left: set_right});
         $(".cell"+ "-" + j.toString() + "-" + i.toString() ).addClass('border');
         set_right =  set_right + 161;
       }
-      set_top = set_top + 75;
+      set_top = set_top + 77;
     }
     var events_record = [<%= raw @events_duration_array.to_json%>]
     for ( i = 0; i < events_record[0].length; i++){
       var current_event = events_record[0][i]
-      $("#" + current_event["id"]).height( 75 * current_event["factor"]);
+      $("#" + current_event["id"]).height( 76 * current_event["factor"]);
     }
   })
 </script>

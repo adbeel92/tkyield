@@ -27,7 +27,7 @@
                       <%= label_tag "include launch time?" %>
                     </td>
                   </div>
-                  </td>         
+                  </td> 
               </tr>   
           </table>                
           <%= submit_tag "Submit ", class: "btn btn-default"%>
@@ -40,7 +40,6 @@
 </div>
 
 <script type="text/javascript">
-
   $('.delete_event').click(function(){
     var current_event = $("#edit_event_form")
     var current_schedule = $(".edit-current-event")
@@ -64,4 +63,10 @@
       $('.popover').css("z-index", "3000");
     }
   })
+  $('#detail-event').on('shown.bs.modal', function () {
+    console.log( $("#launch").val() );
+    if ( $("#launch").val() == "true"){
+      $("#launch").attr('checked', true);
+    }
+  });
 </script>

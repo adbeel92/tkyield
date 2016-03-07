@@ -35,7 +35,6 @@ class EventsController < DashboardController
 		event_log.set_event_data(params[:start_event], params[:finish_event], params[:schedule_id], current_user.id,
 			                      Chronic.parse('monday', :context => :past).to_date + last_day - 1,
 			                      false)
-		#event_log.set_launch(params[:event][:launch]), por ahora false
 		@current_event.update_attributes({:name=>params[:name_event], :inTime=>params[:start_event], :outTime=>params[:finish_event], :last_event_log=>event_log.id})
 		@events_duration_array = Event.events_duration_array(@schedule.events)
 	end

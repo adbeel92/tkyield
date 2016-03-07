@@ -30,7 +30,7 @@ class Event < ActiveRecord::Base
     events.each do |current_event|
       events_duration = Hash.new
       start_inTime = current_event.inTime.to_time.strftime("%H:%M").split(':')
-      events_duration["id"] = start_inTime[0] + "-" + (current_event[:day_of_week]+1).to_s
+      events_duration["id"] = start_inTime[0].to_i.to_s + "-" + (current_event[:day_of_week]+1).to_s
       events_duration["factor"] = current_event.get_factor
       events_duration["row"] = start_inTime[0]
       events_duration["col"] = (current_event[:day_of_week]+1).to_s
