@@ -16,8 +16,11 @@ class EventsController < DashboardController
 		new_event.schedule_id = params[:schedule_id]
 		new_event.day_of_week = params[:event][:day_of_week].to_i
 		new_event.last_event_log = event_log.id
-		if new_event.errors.blank?
+		if new_event.valid?
+    	flash[:success] = "The event has been saved."
 			new_event.save
+		else
+      flash[:error] = "The event could not be saved."
 		end
 		@events_duration_array = Event.events_duration_array(@schedule.events)
 	end
