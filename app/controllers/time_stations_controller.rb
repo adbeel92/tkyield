@@ -50,7 +50,7 @@ class TimeStationsController < DashboardController
       if @time_station.is_checkout?
         @time_station.total_time = new_time - @time_station.parent.created_at
       end
-      unless false# @time_station.save
+      unless @time_station.save
         render js: "alert('It could not be saved')"
       end
     end
