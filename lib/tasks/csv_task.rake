@@ -4,7 +4,7 @@ namespace :csv do
     require 'csv'
     if args[:model]
       model_plural = args[:model].pluralize
-      class_name = args[:model].titleize.constantize
+      class_name = args[:model].titleize.gsub(' ', '').constantize
       file_path = "#{Rails.root}/public/csv/#{model_plural}_#{Time.now.utc.strftime("%Y_%m_%d_%H_%M_%S")}.csv"
       dir = File.dirname(file_path)
       FileUtils.mkdir_p(dir) unless File.directory?(dir)
