@@ -3,33 +3,48 @@
     <tr>
       <th>Name</th>
       <th>In/Out</th>
-      <th>Time</th>      
+      <th>Time</th>
+      <% if current_user.is_administrator? %>
+        <th colspan="2">Action</th>
+      <% end %>
     </tr>
   </thead>
 
   <tbody id="table-scrollBar">
     <% @recent.each do |time_station| %>
-      <tr>
+      <tr id="time-station-tr-<%= time_station.id %>">
         <td><%= time_station.user.full_name %>
         <td> 
-        <% if time_station.parent_id.nil? %>
-          IN
-        <% else %>
-          OUT
-        <% end %>
+          <% if time_station.is_checkin? %>
+            IN
+          <% else %>
+            OUT
+          <% end %>
         </td>
-        <td>
-        <% if time_station.parent_id.nil? %>
-         <%= datetime_format(time_station.created_at) %>
-        <% else %>
-         <%= datetime_format(time_station.created_at) %>
-        <% end %>
+        <td id="time-station-value-<%= time_station.id %>">
+          <% if time_station.is_checkin? %>
+           <%= datetime_format(time_station.created_at) %>
+          <% else %>
+           <%= datetime_format(time_station.created_at) %>
+          <% end %>
         </td>
+        <% if current_user.is_administrator? %>
+          <td> <%= link_to '<i class="fa fa-pencil"></i> Edit'.html_safe, edit_time_station_path(time_station), class: "btn btn-default", remote: true %></td>
+          <td> <%= link_to '<i class="fa fa-times"></i> Delete'.html_safe, time_station, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-default", remote: true %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
+<!-- TimeStation Edition -->
+<% if current_user.is_administrator? %>
+  <div id="time-station-modal-container"></div>
+<% end %>
+
+<div class="text-center">
+  <%= will_paginate @recent,:previous_label => '<<', :next_label => '>>' %>  
+</div>
 
 <script>
  $("#table-scrollBar").mCustomScrollbar();

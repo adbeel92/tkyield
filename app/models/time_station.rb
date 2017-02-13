@@ -14,7 +14,7 @@ class TimeStation < ActiveRecord::Base
   belongs_to :user
   belongs_to :parent, :class_name => 'TimeStation'
   has_one :children, :class_name => 'TimeStation', :foreign_key => 'parent_id'
-  
+
   acts_as_xlsx
 
   def is_checkin?
@@ -71,7 +71,7 @@ class TimeStation < ActiveRecord::Base
   end
 
   def self.recent(account)
-    find_by_account(account).order("created_at DESC")
+    find_by_account(account).order("time_stations.created_at DESC")
   end
 
   def self.find_by_account(account)

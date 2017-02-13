@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   scope ':route' do
     get '/', to: "dashboard#index", as: "dashboard"
     resources :users, only: [:index, :new, :edit, :create, :update], path: "collaborators" do
-      get 'schedule', to: 'users#schedule' , on: :member
+      # get 'schedule', to: 'users#schedule' , on: :member
       get 'archives', to: 'users#archives', on: :collection
       get 'show_user_project', to: 'users#projects', on: :member
       patch 'update_user_project', to: 'users#update_projects', on: :member
@@ -60,19 +60,18 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :schedules do
-      resources :events
-      put :set, on: :member
-    end
+    # resources :schedules do
+    #   resources :events
+    #   put :set, on: :member
+    # end
 
-    resources :permits do
-      get 'accept'
-      get 'decline'
-      get 'permission', on: :collection
-
-    end
+    # resources :permits do
+    #   get 'accept'
+    #   get 'decline'
+    #   get 'permission', on: :collection
+    # end
     
-    resource :calendar, only: [:show], controller: :calendar
+    # resource :calendar, only: [:show], controller: :calendar
 
     devise_for :users, :controllers => { :sessions => 'user_device/sessions', :passwords => 'user_device/passwords', :registrations => 'user_device/registrations', :confirmations => 'user_device/confirmations' }
     devise_scope :user do

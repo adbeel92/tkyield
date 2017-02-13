@@ -18,7 +18,7 @@ class TimeStationsController < DashboardController
   # GET /time_stations/new
   def new
     @time_station = TimeStation.new
-    @recent = TimeStation.recent(current_account).paginate(:page => params[:page], :per_page => 10)
+    @recent = TimeStation.recent(current_account).includes(:user).paginate(:page => params[:page], :per_page => 10)
   end
 
   # GET /time_stations/1/edit
@@ -27,7 +27,6 @@ class TimeStationsController < DashboardController
 
   # POST /time_stations
   # POST /time_stations.json
-  
   def create
     @user = current_account.users.find_by_pin_code(params[:pin_code])
     @success = true
@@ -41,32 +40,33 @@ class TimeStationsController < DashboardController
   # PATCH/PUT /time_stations/1
   # PATCH/PUT /time_stations/1.json
   def update
-    respond_to do |format|
-      if @time_station.update(time_station_params)
-        format.html { redirect_to @time_station, notice: 'Time station was successfully updated.' }
-        format.json { render :show, status: :ok, location: @time_station }
-      else
-        format.html { render :edit }
-        format.json { render json: @time_station.errors, status: :unprocessable_entity }
+    if current_user.is_administrator?
+      new_time = Time.zone.parse(params[:time_station][:created_at])
+      @time_station.created_at = new_time
+      if @time_station.is_checkout?
+        @time_station.total_time = new_time - @time_station.parent.created_at
+      end
+      unless @time_station.save
+        render js: "alert('It could not be saved')"
       end
     end
   end
 
   # DELETE /time_stations/1
   # DELETE /time_stations/1.json
-  # def destroy
-  #   @time_station.destroy
-  #   respond_to do |format|
-  #     format.html { redirect_to time_stations_url, notice: 'Time station was successfully destroyed.' }
-  #     format.json { head :no_content }
-  #   end
-  # end
+  def destroy
+    if current_user.is_administrator?
+      unless @time_station.destroy
+        render js: "alert('It could not be saved')"
+      end
+    end
+  end
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_time_station
-      @time_station = TimeStation.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_time_station
+    @time_station = TimeStation.find(params[:id])
+  end
 
 end

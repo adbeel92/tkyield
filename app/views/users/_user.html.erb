@@ -18,7 +18,7 @@
 			<%= link_to '<i class="fa  fa-reply-all"></i> Resend Confirmation'.html_safe, resend_confirmation_user_path(user), class: "btn btn-default" %>
 		<% end %>
 	<% end %>
-	<%= link_to '<i class="fa fa-calendar"></i> Schedule'.html_safe,   schedule_user_path(user) ,class: "btn btn-default" %>
+	<%#= link_to '<i class="fa fa-calendar"></i> Schedule'.html_safe,   schedule_user_path(user) ,class: "btn btn-default" %>
 	<%= link_to "<i class=#{icon}></i> #{text}".html_safe, active ? archive_user_path(user) : unarchive_user_path(user), class: "btn btn-default", remote: true, method: "put", data: { confirm: "You are about to #{text} : #{user.full_name}, this action involves:
 			  Automatic Check-out
 			  Stop all the activities on Timesheets

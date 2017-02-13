@@ -21,11 +21,11 @@
 						</i> Profile</a>
 					<% end %>
 				</li>
-				<li>
-					<%= link_to schedules_path do %>
+				<!-- <li>
+					<%#= link_to schedules_path do %>
 						</i> Schedules </a>
-					<% end %>
-				</li>
+					<%# end %>
+				</li> -->
 				<li class="divider"></li>
 				<li>
 					<%= link_to destroy_user_session_path, method: :delete do %>
@@ -45,20 +45,20 @@
 					<% end %>
 				</li>
 			<% end %>
-			<% if can? :manage, Schedule %>   
-				<li class="<%= 'active' if controller.controller_name == 'schedules'  %>">
-					<%= link_to  schedules_path do %>
+			<%# if can? :manage, Schedule %>   
+				<!-- <li class="<%#= 'active' if controller.controller_name == 'schedules'  %>">
+					<%#= link_to  schedules_path do %>
 						<i class="fa fa-calendar-o"></i> My Schedule
-					<% end %>
-				</li>
-			<% end %>			
-			<% if can? :manage, Permit %>   
-				<li class="<%= 'active' if controller.controller_name == 'permits'  %>">
-					<%= link_to  permits_path do %>
+					<%# end %>
+				</li> -->
+			<%# end %>			
+			<%# if can? :manage, Permit %>   
+				<!-- <li class="<%#= 'active' if controller.controller_name == 'permits'  %>">
+					<%#= link_to  permits_path do %>
 						<i class="fa fa-list-alt"></i> Requests
-					<% end %>
-				</li>
-			<% end %>		
+					<%# end %>
+				</li> -->
+			<%# end %>		
 			<% if can? :manage, Client , Task, Project%>
 			<li>
 				<a href="javascript:;" data-toggle="collapse" data-target="#manage" aria-expanded="true">Manage  <i class="fa fa-fw fa-caret-down"></i> </a>
